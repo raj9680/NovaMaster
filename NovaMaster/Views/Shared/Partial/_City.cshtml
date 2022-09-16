@@ -1,0 +1,8 @@
+﻿@model NovaMaster.Models._InformationModel;
+<div class="col-4 form-group">
+    <label>City</label>
+    <select asp-for="@Model.Info.CityId" class="form-control" id="city" data-toggle="select2" asp-items="@ViewBag.City">
+        <option value="-1" selected>--- Select City ---</option>
+    </select>
+    <span asp-validation-for="@Model.Info.CityId" class="text-danger"></span>
+</div>

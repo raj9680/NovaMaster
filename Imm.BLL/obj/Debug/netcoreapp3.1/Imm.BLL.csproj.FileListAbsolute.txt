@@ -1,0 +1,15 @@
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\bin\Debug\netcoreapp3.1\Imm.BLL.deps.json
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\bin\Debug\netcoreapp3.1\Imm.BLL.dll
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\bin\Debug\netcoreapp3.1\Imm.BLL.pdb
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\bin\Debug\netcoreapp3.1\Imm.DAL.dll
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\bin\Debug\netcoreapp3.1\JWT.Auth.dll
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\bin\Debug\netcoreapp3.1\JWT.Auth.pdb
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\bin\Debug\netcoreapp3.1\Imm.DAL.pdb
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.csproj.AssemblyReference.cache
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.AssemblyInfoInputs.cache
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.AssemblyInfo.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.csproj.CoreCompileInputs.cache
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.csproj.CopyComplete
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.dll
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\Imm.BLL\obj\Debug\netcoreapp3.1\Imm.BLL.pdb

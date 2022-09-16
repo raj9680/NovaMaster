@@ -1,0 +1,27 @@
+﻿@model NovaMaster.Models.ModelAspNetusersDocs;
+<form enctype="multipart/form-data" asp-controller="Common" asp-action="SingleFileUpload" method="post">
+    <div class="row">
+        <div class="col-sm-6">
+            <label asp-for="@Model.Document">Cover Photo</label>
+            <div class="form-file mb-3">
+                <input class="form-file-input" asp-for="@Model.Document">
+                <label class="custom-file-label">Choose</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row text-center mt-4 mb-4">
+        <div class="col-12">
+            <button class="btn btn-md btn-block btn-primary waves-effect waves-light" type="submit">Sign In</button>
+        </div>
+    </div>
+</form>
+@section Scripts { 
+    <script>
+        $(document).ready(function () {
+            $('.form-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+}

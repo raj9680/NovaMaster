@@ -1,0 +1,878 @@
+﻿@model NovaMaster.Models._InformationModel;
+<section class="signup-step-container">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="wizard">
+                    <div class="wizard-inner">
+                        <div class="connecting-line"></div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Step 1</i></a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Step 2</i></a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Step 3</i></a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Step 4</i></a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab" aria-expanded="false"><span class="round-tab">5</span> <i>Step 2</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <form action="@Url.Action("AddClient", "Client")?Id=@ViewBag.AgentId" enctype="multipart/form-data" method="post">
+                        <input asp-for="@Model.Users.AgentId" value="@ViewBag.AgentId" style="display:none" class="form-control">
+                        <div class="tab-content" id="main_form">
+                            <div class="tab-pane active" role="tabpanel" id="step1">
+                                <h4 class="text-center">Account Information</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.Users.FullName">Full Name *</label>
+                                            <input class="form-control textonly" asp-for="@Model.Users.FullName">
+                                            <span asp-validation-for="@Model.Users.FullName" class="text-danger"></span>
+                                            @Html.ValidationMessage("FullName", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.Users.Email">Email  *</label>
+                                            <input asp-for="@Model.Users.Email" class="form-control" type="email">
+                                            <span asp-validation-for="@Model.Users.Email" class="text-danger"></span>@Html.ValidationMessage("Email", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.Users.Password">Password *</label>
+                                            <input asp-for="@Model.Users.Password" class="form-control" type="password">
+                                            <span asp-validation-for="@Model.Users.Password" class="text-danger"></span>@Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.Users.CnfPassword">Confirm Password *</label>
+                                            <input asp-for="@Model.Users.CnfPassword" class="form-control" type="password">
+                                            <span asp-validation-for="@Model.Users.CnfPassword" class="text-danger"></span>@Html.ValidationMessage("ConfirmPassword", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><button type="button" onclick="first()" class="default-btn next-step">Next</button></li>
+                                </ul>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="step2">
+                                <h4 class="text-center">Address Information</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.ContactNumber">Contact Number *</label>
+                                            <input asp-for="@Model.StudentsInfo.ContactNumber" class="form-control numbersonly">
+                                            <span asp-validation-for="@Model.StudentsInfo.ContactNumber" class="text-danger"></span>@Html.ValidationMessage("ContactNumber", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.DOB">DOB *</label>
+                                            <input asp-for="@Model.StudentsInfo.DOB" type="date" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.DOB" class="text-danger"></span>@Html.ValidationMessage("DOB", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.AddressLine1">Address 1 *</label>
+                                            <input asp-for="@Model.StudentsInfo.AddressLine1" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.AddressLine1" class="text-danger"></span>@Html.ValidationMessage("Address1", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.AddressLine2">Address 2 *</label>
+                                            <input asp-for="@Model.StudentsInfo.AddressLine2" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.AddressLine2" class="text-danger"></span>@Html.ValidationMessage("Address2", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <partial name="Partial/_Country" />
+                                    <partial name="Partial/_State" />
+                                    <partial name="Partial/_City" />
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.Zip">ZIP *</label>
+                                            <input asp-for="@Model.StudentsInfo.Zip" class="form-control numbersonly">
+                                            <span asp-validation-for="@Model.StudentsInfo.Zip" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.Reference">Reference</label>
+                                            <input asp-for="@Model.StudentsInfo.Reference" class="form-control textonly">
+                                            <span asp-validation-for="@Model.StudentsInfo.Reference" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><button type="button" class="default-btn prev-step">Back</button></li>
+                                    <li><button type="button" onclick="second()" class="default-btn next-step">Next</button></li>
+                                </ul>
+                            </div>
+
+                            <div class="tab-pane" role="tabpanel" id="step3">
+                                <h4 class="text-center">Skill Information</h4>
+                                <h4 class="header-title mb-4 mt-4">Exam (IELTS, TOFEL, PTE ETC.)</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.PrimaryLanguage">Primary Language *</label>
+                                            <select asp-for="@Model.StudentsInfo.PrimaryLanguage" class="form-control">
+                                                <option value="-1" selected="selected">--- Select ---</option>
+                                                <option value="English">English</option>
+                                                <option value="French">French</option>
+                                                <option value="Dutch">Dutch</option>
+                                                <option value="Hindi">Hindi</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <span asp-validation-for="@Model.StudentsInfo.PrimaryLanguage" class="text-danger"></span>@Html.ValidationMessage("PrimaryLanguage", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.EnglishExamType">English Exam Type *</label>
+                                            <select asp-for="@Model.StudentsInfo.EnglishExamType" class="form-control">
+                                                <option value="-1" selected="selected">--- Select ---</option>
+                                                <option value="IELTS">IELTS</option>
+                                                <option value="TOFEL">TOFEL</option>
+                                                <option value="PTE">PTE</option>
+                                                <option value="DUALINGO">DUALINGO</option>
+                                                <option value="I dont have this">I dont have this</option>
+                                                <option value="I will provide later">I will provide later</option>
+                                            </select>
+                                            <span asp-validation-for="@Model.StudentsInfo.EnglishExamType" class="text-danger"></span>@Html.ValidationMessage("EnglishExamType", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.Intake">Intake to apply *</label>
+                                            <select asp-for="@Model.StudentsInfo.Intake" class="form-control">
+                                                <option value="-1" selected="selected">--- Select ---</option>
+                                                <option value="Dec-Mar">Dec. - Mar.</option>
+                                                <option value="Apr-Jul">Apr. - Jul.</option>
+                                                <option value="Aug-Nov">Aug. - Nov.</option>
+                                                <option value="Anytime">Anytime</option>
+                                            </select>
+                                            <span asp-validation-for="@Model.StudentsInfo.Intake" class="text-danger"></span>
+                                            @Html.ValidationMessage("Intake", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.IntakeYear">Intake year</label>
+                                            <input asp-for="@Model.StudentsInfo.IntakeYear" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.IntakeYear" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.Program">Which program type you want to apply for? *</label>
+                                            <select asp-for="@Model.StudentsInfo.Program" class="form-control">
+                                                <option value="-1" selected="selected">--- Select ---</option>
+                                                <option value="English as Second Language(ESI">English as Second Language(ESI)</option>
+                                                <option value="1 Year Post Secondary Certificate">1 Year Post Secondary Certificate</option>
+                                                <option value="2 Years Undergraduate Diploma">2 Years Undergraduate Diploma</option>
+                                                <option value="3 Years Undergraduate Advanced Diploma">3 Years Undergraduate Advanced Diploma</option>
+                                                <option value="3 Years Bachelor's Degree">3 Years Bachelor's Degree</option>
+                                                <option value="4 Years Bachelor's Degree">4 Years Bachelor's Degree</option>
+                                                <option value="Post Graduate Certificate/Master's Degree">Post Graduate Certificate/Master's Degree</option>
+                                            </select>
+                                            <span asp-validation-for="@Model.StudentsInfo.Program" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.ProgramCollegePreference">List three programs of your choice / college preferences.</label>
+                                            <input asp-for="@Model.StudentsInfo.ProgramCollegePreference" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.ProgramCollegePreference" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><button type="button" class="default-btn prev-step">Back</button></li>
+                                    <li><button type="button" onclick="third()" class="default-btn next-step">Next</button></li>
+                                </ul>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="step4">
+                                <h4 class="header-title mb-4 mt-4">Education Details</h4>
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <label asp-for="@Model.StudentsInfo.HighestEducation">Highest Level of Education</label>
+                                        <select asp-for="@Model.StudentsInfo.HighestEducation" class="form-control" data-toggle="select1">
+                                            <option value="-1" selected>--- Select ---</option>
+                                            <option value="Matriculation">Matriculation</option>
+                                            <option value="Senior Secondary">Senior Secondary</option>
+                                            <option value="Bachelors Degree">Bachelor's Degree</option>
+                                            <option value="Masters Degree">Master's Degree</option>
+                                        </select>
+                                        <span asp-validation-for="@Model.StudentsInfo.HighestEducation" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="matriculation">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MatricEducationStartDate">Matric Start Date</label>
+                                        <input asp-for="@Model.StudentsInfo.MatricEducationStartDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MatricEducationStartDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MatricEducationEndDate">Matric End Date</label>
+                                        <input asp-for="@Model.StudentsInfo.MatricEducationEndDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MatricEducationEndDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MatricEducationCompletionDate">Matric Completion Year</label>
+                                        <input asp-for="@Model.StudentsInfo.MatricEducationCompletionDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MatricEducationCompletionDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="matriculation">
+                                    <div class="col-12 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MatricInstituteInfo">Institute Name with Address</label>
+                                        <textarea asp-for="@Model.StudentsInfo.MatricInstituteInfo" style="height: 60px;" class="form-control"></textarea>
+                                        <span asp-validation-for="@Model.StudentsInfo.MatricInstituteInfo" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="matriculation">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MatricEducationPercentage">Percentage</label>
+                                        <input asp-for="@Model.StudentsInfo.MatricEducationPercentage" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MatricEducationPercentage" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MatricEducationMathsmarks">Maths Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.MatricEducationMathsmarks" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MatricEducationMathsmarks" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MatricEducationEnglishMarks">English Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.MatricEducationEnglishMarks" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MatricEducationEnglishMarks" class="text-danger"></span>
+                                    </div>
+                                    <hr />
+                                </div>
+
+                                <!-- Senior Secondary -->
+                                <div class="row" id="secondary">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.SecondaryEducationStartDate">Senior Secondary Start Date</label>
+                                        <input asp-for="@Model.StudentsInfo.SecondaryEducationStartDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationStartDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.SecondaryEducationEndDate">Senior Secondary End Date</label>
+                                        <input asp-for="@Model.StudentsInfo.SecondaryEducationEndDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationEndDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.SecondaryEducationCompletionDate">Completion Year</label>
+                                        <input asp-for="@Model.StudentsInfo.SecondaryEducationCompletionDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationCompletionDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="secondary">
+                                    <div class="col-12 form-group">
+                                        <label asp-for="@Model.StudentsInfo.SecondaryInstituteInfo">Institute Name with Address</label>
+                                        <textarea asp-for="@Model.StudentsInfo.SecondaryInstituteInfo" style="height: 60px;" class="form-control"></textarea>
+                                        <span asp-validation-for="@Model.StudentsInfo.SecondaryInstituteInfo" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="secondary">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.SecondaryEducationPercentage">Percentage</label>
+                                        <input asp-for="@Model.StudentsInfo.SecondaryEducationPercentage" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationPercentage" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.SecondaryEducationMathsmarks">Maths Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.SecondaryEducationMathsmarks" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationMathsmarks" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.SecondaryEducationEnglishMarks">English Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.SecondaryEducationEnglishMarks" type="password" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationEnglishMarks" class="text-danger"></span>
+                                    </div>
+                                    <hr />
+                                </div>
+
+                                <!-- Bachelor's Degree -->
+                                <div class="row" id="bachelors">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.BachelorsEducationStartDate">Bachelor's Start Date</label>
+                                        <input asp-for="@Model.StudentsInfo.BachelorsEducationStartDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.BachelorsEducationStartDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.BachelorsEducationEndDate">Bachelor's End Date</label>
+                                        <input asp-for="@Model.StudentsInfo.BachelorsEducationEndDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.BachelorsEducationEndDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.BachelorsEducationCompletionDate">Completion Year</label>
+                                        <input asp-for="@Model.StudentsInfo.BachelorsEducationCompletionDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.BachelorsEducationCompletionDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="bachelors">
+                                    <div class="col-12 form-group">
+                                        <label asp-for="@Model.StudentsInfo.BachelorsInstituteInfo">Institute Name with Address</label>
+                                        <textarea asp-for="@Model.StudentsInfo.BachelorsInstituteInfo" style="height: 60px;" class="form-control"></textarea>
+                                        <span asp-validation-for="@Model.StudentsInfo.BachelorsInstituteInfo" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="bachelors">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.BachelorsEducationPercentage">Percentage</label>
+                                        <input asp-for="@Model.StudentsInfo.BachelorsEducationPercentage" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.BachelorsEducationPercentage" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.BachelorsEducationMathsmarks">Maths Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.BachelorsEducationMathsmarks" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.BachelorsEducationMathsmarks" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.BachelorsEducationEnglishMarks">English Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.BachelorsEducationEnglishMarks" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.BachelorsEducationEnglishMarks" class="text-danger"></span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <!-- Master's Degree -->
+                                <div class="row" id="masters">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MastersEducationStartDate">Master's Start Date</label>
+                                        <input asp-for="@Model.StudentsInfo.MastersEducationStartDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MastersEducationStartDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MastersEducationEndDate">Master's End Date</label>
+                                        <input asp-for="@Model.StudentsInfo.MastersEducationEndDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MastersEducationEndDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MastersEducationCompletionDate">Completion Year</label>
+                                        <input asp-for="@Model.StudentsInfo.MastersEducationCompletionDate" type="date" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MastersEducationCompletionDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="masters">
+                                    <div class="col-12 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MastersInstituteInfo">Institute Name with Address</label>
+                                        <textarea asp-for="@Model.StudentsInfo.MastersInstituteInfo" style="height: 60px;" class="form-control"></textarea>
+                                        <span asp-validation-for="@Model.StudentsInfo.MastersInstituteInfo" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="masters">
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MastersEducationPercentage">Percentage</label>
+                                        <input asp-for="@Model.StudentsInfo.MastersEducationPercentage" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MastersEducationPercentage" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MastersEducationMathsmarks">Maths Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.MastersEducationMathsmarks" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MastersEducationMathsmarks" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label asp-for="@Model.StudentsInfo.MastersEducationEnglishMarks">English Marks</label>
+                                        <input asp-for="@Model.StudentsInfo.MastersEducationEnglishMarks" type="number" class="form-control">
+                                        <span asp-validation-for="@Model.StudentsInfo.MastersEducationEnglishMarks" class="text-danger"></span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><button type="button" class="default-btn prev-step">Back</button></li>
+                                    <li><button type="button" onclick="fourth()" class="default-btn next-step">Continue</button></li>
+                                </ul>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="step5">
+                                <h4 class="text-center">More Information</h4>
+                                <h4 class="header-title mb-4 mt-4">Work experience if any</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.CompanyName">Company Name</label>
+                                            <input asp-for="@Model.StudentsInfo.CompanyName" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationEnglishMarks" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.JobTitle">Job Title</label>
+                                            <input asp-for="@Model.StudentsInfo.JobTitle" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.JobTitle" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.JobStartDate">Job start date *</label>
+                                            <input asp-for="@Model.StudentsInfo.JobStartDate" type="date" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.JobStartDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.JobEndDate">Job end date *</label>
+                                            <input asp-for="@Model.StudentsInfo.JobEndDate" type="date" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.JobEndDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.IsRefusedVisa">Have you refused any visa? *</label>
+                                            <select asp-for="@Model.StudentsInfo.IsRefusedVisa" class="form-control">
+                                                <option value="-1" selected="selected">--- Select ---</option>
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                            <span asp-validation-for="@Model.StudentsInfo.IsRefusedVisa" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.ExplainIfRefused">If yes provide details </label>
+                                            <input asp-for="@Model.StudentsInfo.ExplainIfRefused" class="form-control">
+                                            <span asp-validation-for="@Model.StudentsInfo.SecondaryEducationEnglishMarks" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.StudentsInfo.HaveStudyPermitVisa">Do you have a valid study permit / visa? *</label>
+                                            <select asp-for="@Model.StudentsInfo.HaveStudyPermitVisa" class="form-control">
+                                                <option value="-1" selected="selected">--- Select ---</option>
+                                                <option value="Canadian Study Permit">Canadian Study Permit</option>
+                                                <option value="Canadian Work Permit">Canadian Work Permit</option>
+                                                <option value="I dont have any visa">I dont have any visa</option>
+                                            </select>
+                                            <span asp-validation-for="@Model.StudentsInfo.HaveStudyPermitVisa" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    @*<h4 class="header-title mb-4 mt-4">Education Details</h4>*@
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.ClientDocs.Passport">Passport</label>
+                                            <input asp-for="@Model.ClientDocs.Passport" class="form-control">
+                                            <span asp-validation-for="@Model.ClientDocs.Passport" class="text-danger"></span>@Html.ValidationMessage("Passport", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.ClientDocs.EnglishExam">Exam(IELTS, TOFEL etc.)</label>
+                                            <input asp-for="@Model.ClientDocs.EnglishExam" class="form-control">
+                                            <span asp-validation-for="@Model.ClientDocs.EnglishExam" class="text-danger"></span>@Html.ValidationMessage("EnglishExam", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.ClientDocs.Matriculation">Matriculation</label>
+                                            <input asp-for="@Model.ClientDocs.Matriculation" class="form-control">
+                                            <span asp-validation-for="@Model.ClientDocs.Matriculation" class="text-danger"></span>@Html.ValidationMessage("Matriculation", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.ClientDocs.SeniorSecondary">Secondary</label>
+                                            <input asp-for="@Model.ClientDocs.SeniorSecondary" class="form-control">
+                                            <span asp-validation-for="@Model.ClientDocs.SeniorSecondary" class="text-danger"></span>@Html.ValidationMessage("Secondary", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.ClientDocs.BachelorsDegree">Bachelor's Certificate</label>
+                                            <input asp-for="@Model.ClientDocs.BachelorsDegree" class="form-control">
+                                            <span asp-validation-for="@Model.ClientDocs.BachelorsDegree" class="text-danger"></span>@Html.ValidationMessage("Bachelors", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="@Model.ClientDocs.WorkExperience">Work Experience</label>
+                                            <input asp-for="@Model.ClientDocs.WorkExperience" class="form-control">
+                                            <span asp-validation-for="@Model.ClientDocs.WorkExperience" class="text-danger"></span>@Html.ValidationMessage("WorkExperience", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><button type="button" class="default-btn prev-step">Back</button></li>
+                                    <li><button type="button" onclick="fifth()" class="default-btn next-step">Finish</button></li>
+                                    <li><button type="submit" id="submit" style="display:none" class="default-btn next-step">Finish</button></li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="~/js/validate/validate.js"></script>
+}
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+    /*.round-tab {
+        pointer-events: none;
+        cursor: pointer;
+    }*/
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    i {
+        margin-right: 10px;
+    }
+    /*------------------------*/
+    input:focus,
+    button:focus,
+    .form-control:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #fff;
+    }
+    /*----------step-wizard------------*/
+    .d-flex {
+        display: flex;
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+    /*---------signup-step-------------*/
+    .bg-color {
+        background-color: #333;
+    }
+
+    .signup-step-container {
+        padding: 150px 0px;
+        padding-bottom: 60px;
+    }
+
+    .wizard .nav-tabs {
+        position: relative;
+        margin-bottom: 0;
+        border-bottom-color: transparent;
+    }
+
+    .wizard > div.wizard-inner {
+        position: relative;
+        margin-bottom: 50px;
+        text-align: center;
+    }
+
+    .connecting-line {
+        height: 2px;
+        background: #e0e0e0;
+        position: absolute;
+        width: 75%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: 15px;
+        z-index: 1;
+    }
+
+    .wizard .nav-tabs > li.active > a, .wizard .nav-tabs > li.active > a:hover, .wizard .nav-tabs > li.active > a:focus {
+        color: #555555;
+        cursor: default;
+        border: 0;
+        border-bottom-color: transparent;
+    }
+
+    span.round-tab {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        display: inline-block;
+        border-radius: 50%;
+        background: #fff;
+        z-index: 2;
+        position: absolute;
+        left: 0;
+        text-align: center;
+        font-size: 16px;
+        color: #0e214b;
+        font-weight: 500;
+        border: 1px solid #ddd;
+    }
+
+        span.round-tab i {
+            color: #555555;
+        }
+
+    .wizard li.active span.round-tab {
+        background: #0db02b;
+        color: #fff;
+        border-color: #0db02b;
+    }
+
+        .wizard li.active span.round-tab i {
+            color: #5bc0de;
+        }
+
+    .wizard .nav-tabs > li.active > a i {
+        color: #0db02b;
+    }
+
+    /*.wizard .nav-tabs > li {
+        width: 25%;
+    }*/
+    .wizard .nav-tabs > li {
+        flex: 1 1 20%;
+    }
+
+    .wizard li:after {
+        content: " ";
+        position: absolute;
+        left: 46%;
+        opacity: 0;
+        margin: 0 auto;
+        bottom: 0px;
+        border: 5px solid transparent;
+        border-bottom-color: red;
+        transition: 0.1s ease-in-out;
+    }
+
+    .wizard .nav-tabs > li a {
+        width: 30px;
+        height: 30px;
+        margin: 20px auto;
+        border-radius: 100%;
+        padding: 0;
+        background-color: transparent;
+        position: relative;
+        top: 0;
+    }
+
+        .wizard .nav-tabs > li a i {
+            position: absolute;
+            top: -15px;
+            font-style: normal;
+            font-weight: 400;
+            white-space: nowrap;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .wizard .nav-tabs > li a:hover {
+            background: transparent;
+        }
+
+    .wizard .tab-pane {
+        position: relative;
+        padding-top: 20px;
+    }
+
+    .wizard h3 {
+        margin-top: 0;
+    }
+
+    .prev-step,
+    .next-step {
+        font-size: 13px;
+        padding: 8px 24px;
+        border: none;
+        border-radius: 4px;
+        margin-top: 30px;
+    }
+
+    .next-step {
+        background-color: #0db02b;
+    }
+
+    .skip-btn {
+        background-color: #cec12d;
+    }
+
+    .step-head {
+        font-size: 20px;
+        text-align: center;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .term-check {
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .custom-file {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 40px;
+        margin-bottom: 0;
+    }
+
+    .custom-file-input {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 40px;
+        margin: 0;
+        opacity: 0;
+    }
+
+    .custom-file-label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        height: 40px;
+        padding: .375rem .75rem;
+        font-weight: 400;
+        line-height: 2;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }
+
+        .custom-file-label::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 3;
+            display: block;
+            height: 38px;
+            padding: .375rem .75rem;
+            line-height: 2;
+            color: #495057;
+            content: "Browse";
+            background-color: #e9ecef;
+            border-left: inherit;
+            border-radius: 0 .25rem .25rem 0;
+        }
+
+    .footer-link {
+        margin-top: 30px;
+    }
+
+    .all-info-container {
+    }
+
+    .list-content {
+        margin-bottom: 10px;
+    }
+
+        .list-content a {
+            padding: 10px 15px;
+            width: 100%;
+            display: inline-block;
+            background-color: #f5f5f5;
+            position: relative;
+            color: #565656;
+            font-weight: 400;
+            border-radius: 4px;
+        }
+
+            .list-content a[aria-expanded="true"] i {
+                transform: rotate(180deg);
+            }
+
+            .list-content a i {
+                text-align: right;
+                position: absolute;
+                top: 15px;
+                right: 10px;
+                transition: 0.5s;
+            }
+
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #fdfdfd;
+    }
+
+    .list-box {
+        padding: 10px;
+    }
+
+    .signup-logo-header .logo_area {
+        width: 200px;
+    }
+
+    .signup-logo-header .nav > li {
+        padding: 0;
+    }
+
+    .signup-logo-header .header-flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .list-inline li {
+        display: inline-block;
+    }
+
+    .pull-right {
+        float: right;
+    }
+    /*-----------custom-checkbox-----------*/
+    /*----------Custom-Checkbox---------*/
+    input[type="checkbox"] {
+        position: relative;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+        input[type="checkbox"]::before,
+        input[type="checkbox"]::after {
+            position: absolute;
+            content: "";
+            display: inline-block;
+        }
+
+        input[type="checkbox"]::before {
+            height: 16px;
+            width: 16px;
+            border: 1px solid #999;
+            left: 0px;
+            top: 0px;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+        input[type="checkbox"]::after {
+            height: 5px;
+            width: 9px;
+            left: 4px;
+            top: 4px;
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: "";
+            border-left: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+            transform: rotate(-45deg);
+        }
+
+        input[type="checkbox"]:checked::before {
+            background-color: #18ba60;
+            border-color: #18ba60;
+        }
+</style>

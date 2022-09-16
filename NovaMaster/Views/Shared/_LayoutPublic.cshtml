@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard 1 | Velonic - Responsive Bootstrap 4 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description">
+    <meta content="Coderthemes" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    
+    <!-- App css -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="~/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
+    <style>
+        .content-page{
+            margin-left:0px !important;
+        }
+        .content-page{
+            margin-top:0px;
+        }
+        .footer{
+            left:0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+
+        <!-- Topbar Start -->
+        
+        <!-- end Topbar --> <!-- ========== Left Sidebar Start ========== -->
+        
+
+        @RenderBody();
+
+    </div>
+    <!-- END wrapper -->
+    <!-- Vendor js -->
+    <script src="~/js/vendor.min.js"></script>
+
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/jquery.scrollTo.min.js"></script>
+    <script src="~/js/sweetalert2.min.js"></script>
+
+    <!-- Required datatable js -->
+    <script src="~/js/datatables-jquery.dataTables.min.js"></script>
+    <script src="~/js/datatables-dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/js/pages-datatables.init.js"></script>
+
+    <script src="~/js/datatables-dataTables.buttons.min.js"></script>
+    <script src="~/js/datatables-buttons.bootstrap4.min.js"></script>
+    <script src="~/js/jszip-jszip.min.js"></script>
+    <script src="~/js/pdfmake-pdfmake.min.js"></script>
+    <script src="~/js/pdfmake-vfs_fonts.js"></script>
+    <script src="~/js/datatables-buttons.html5.min.js"></script>
+    <script src="~/js/datatables-buttons.print.min.js"></script>
+
+    <!-- Chat app -->
+    <script src="~/js/jquery.chat.js"></script>
+
+    <!-- Todo app -->
+    <script src="~/js/jquery.todo.js"></script>
+
+    <!--Morris Chart-->
+    <script src="~/js/morris.min.js"></script>
+    <script src="~/js/raphael.min.js"></script>
+
+    <!-- Sparkline charts -->
+    <script src="~/js/jquery.sparkline.min.js"></script>
+
+    <!-- Dashboard init JS -->
+    <script src="~/js/dashboard.init.js"></script>
+
+    <!-- App js -->
+    <script src="~/js/app.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#country').on('change', function () {
+                $('#state option').remove();
+                var CountryId = $('#country option:selected').val();    /* var CountryId = $(this).val(); */
+                //alert(CountryId);
+                if (CountryId != -1) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Common/GetState?CountryId=' + CountryId,
+                        data: { CountryId: CountryId },
+                        dataType: 'json',
+                        success: function (result) {
+                            var ddlist = $('#state');
+                            $.each(result, function (val, text) {
+                                ddlist.append(
+                                    $('<option></option>').val(text.value).html(text.text))
+                            });
+                        }
+                    });
+                }
+            });
+
+
+            $('#state').on('change', function () {
+                $('#city option').remove();
+                                                    /* var CountryId = $(this).val(); */  var StateId = $('#state option:selected').val();
+                if (StateId != -1) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Common/GetCity?StateId=' + StateId,
+                        data: { StateId: StateId },
+                        dataType: 'json',
+                        success: function (result) {
+                            var ddlist2 = $('#city');
+                            $.each(result, function (val, text) {
+                                ddlist2.append(
+                                    $('<option></option>').val(text.value).html(text.text))
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+
+        /// For viewing documnet
+        $(document).ready(function () {
+            $('a.file').click(function () {
+                var id = $("a.file").attr("name");
+                var fId = event.srcElement.id;
+                $.ajax({
+                    type: 'GET',
+                    url: '/Identity/ViewFile?id=' + fId,
+                    data: {},
+                    //dataType: 'json',
+                    success: function (result) {
+                        window.open('http://localhost:5000/ViewFile/' + result, 'viewdocument', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=900');
+                    }
+                });
+            });
+        });
+
+        /// Password Reset
+        $(document).ready(function () {
+            $(document).on('submit', '#onSubmit', function (e) {
+                e.preventDefault();
+                var pass = $("#Password").val();
+                var cnfPass = $("#CnfPassword").val();
+                if (pass.length < 6 || cnfPass.length < 6) {
+                    return alert("Password / Confirm password length should not be less than 6")
+                }
+                if (pass != cnfPass) {
+                    return alert("Password/Confirm Password mismatched")
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "/Access/ChangePassword?pass=" + pass,
+                    data: {},
+                    success: function (response) {
+                        if (response == "success") {
+                            alert("Password changed successfully !");
+                            window.location = "http://localhost:5000";
+                        }
+                        if (response == "failed") {
+                            alert(response);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    @* Specific to AddClient *@
+    @RenderSection("scripts", required:false);
+    @* End *@
+</body>
+</html>
