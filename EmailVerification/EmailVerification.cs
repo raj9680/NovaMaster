@@ -18,7 +18,7 @@ namespace Email
             var domain = "http://localhost:5000";
 
             var sb = new StringBuilder("<body style='margin: 0px;'>");
-            sb.AppendFormat("<div><a href='{0}/common/resetpassword?anonymous={1}&get=%45634&encoded&user=rebecca'>Click here </a>to reset your password</div>", domain, userId);
+            sb.AppendFormat("<div><a href='{0}/common/resetpassword?anonymous={1}&get=%45634&encoded&user=rebecca'>Click here </a> to reset your password</div>", domain, userId);
             sb.Append("</body>");
 
             //message.Body = $"<html><body>Reset your password <a href='http://localhost:5000/common/resetpassword?anonymous='+'{userId}'>here</a></body></html>";

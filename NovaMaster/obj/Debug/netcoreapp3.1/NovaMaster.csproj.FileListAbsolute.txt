@@ -91,13 +91,18 @@ C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\ne
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Identity\_ViewImports.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Identity\_ViewStart.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\error.cshtml.g.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_AgentDocsUpload.cshtml.g.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_AgentInfo.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_City.cshtml.g.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_ClientDocsUpload.cshtml.g.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_ClientInfo.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_Country.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_MultipFileUpload.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_SingleFileUpload.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_State.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout2.cshtml.g.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutClient.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutPublic.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
@@ -108,3 +113,6 @@ C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\ne
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\NovaMaster.dll
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\NovaMaster.pdb
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\NovaMaster.genruntimeconfig.cache
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Client\InviteClient.cshtml.g.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_ClientInformation.cshtml.g.cs
+C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\NovaMaster\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Partial\_AgentInformation.cshtml.g.cs

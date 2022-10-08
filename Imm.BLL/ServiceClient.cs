@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Imm.BLL
@@ -21,6 +22,17 @@ namespace Imm.BLL
             _logger = logger;
         }
 
+        public async Task<AspNetStudentsInfo> ClientViewInfoAsync(string email)
+        {
+            var res = _context.AspNetUsers.Where(o => o.Email == email).FirstOrDefault();
+            if (res == null)
+            {
+                _logger.LogWarning("Null from ServiceIdentity.IdentityViewInfoAsync");
+                return null;
+            }
+            return _context.AspNetStudentsInfo.Where(e => e.UserId == res.UserId).FirstOrDefault();
+        }
+
         public bool IsClientExistAsync(string email)
         {
             var res = _context.AspNetUsers.Where(o => o.Email == email).FirstOrDefault();
@@ -32,59 +44,129 @@ namespace Imm.BLL
             return false;
         }
 
-        public async Task<int> CreateClientAsync(AspNetUsers user, AspNetStudentsInfo userr, AspNetUsersDocs data, string path, int agentId)
+        public async Task<int> CreateClientAsync(AspNetUsers user, AspNetStudentsInfo userr, [Optional] AspNetUsersDocs data, [Optional] string path, [Optional] int agentId)
         {
             using var transaction = _context.Database.BeginTransaction();
 
             try
             {
-                _context.AspNetUsers.Add(user);
-                var err =  _context.SaveChanges();
+                var uids = _context.AspNetUsers.Where(x => x.Email == user.Email).Select(u => u.UserId).FirstOrDefault();
+                var ClientDetail = await _context.AspNetStudentsInfo.FindAsync(uids);
                 
-                // Assigning role to user
-                var role = new AspNetRoles()
+                if (ClientDetail != null)
                 {
-                    UserId = user.UserId,
-                    Role = "client"
-                };
-
-                _context.AspNetRoles.Add(role);
-                _context.SaveChanges();
-
-                userr.UserId = role.UserId;
-                _context.AspNetStudentsInfo.Add(userr);
-
-                // Uploading Docs
-                await MultipleFileUploadAsync(data, path, userr.UserId);
-
-                // Assigning user to agent
-                var member = new AspNetUsersManager()
+                    AspNetUsers ClientInfo = new AspNetUsers();
+                    ClientInfo.FullName = user.FullName; // Client name not getting updated from ClientDashboard
+                    ClientDetail.ContactNumber = userr.ContactNumber;
+                    ClientDetail.DOB = userr.DOB;
+                    ClientDetail.AddressLine1 = userr.AddressLine1;
+                    ClientDetail.AddressLine2 = userr.AddressLine2;
+                    ClientDetail.CityId = userr.CityId;
+                    ClientDetail.Zip = userr.Zip;
+                    ClientDetail.Reference = userr.Reference;
+                    ClientDetail.PrimaryLanguage = userr.PrimaryLanguage;
+                    ClientDetail.EnglishExamType = userr.EnglishExamType;
+                    ClientDetail.Intake = userr.Intake;
+                    ClientDetail.IntakeYear = userr.IntakeYear;
+                    ClientDetail.Program = userr.Program;
+                    ClientDetail.ProgramCollegePreference = userr.ProgramCollegePreference;
+                    ClientDetail.HighestEducation = userr.HighestEducation;
+                    // Masters
+                    ClientDetail.MastersEducationStartDate = userr.MastersEducationStartDate;
+                    ClientDetail.MastersEducationEndDate = userr.MastersEducationEndDate;
+                    ClientDetail.MastersEducationCompletionDate = userr.MastersEducationCompletionDate;
+                    ClientDetail.MastersInstituteInfo = userr.MastersInstituteInfo;
+                    ClientDetail.MastersEducationPercentage = userr.MastersEducationPercentage;
+                    ClientDetail.MastersEducationMathsmarks = userr.MastersEducationMathsmarks;
+                    ClientDetail.MastersEducationEnglishMarks = userr.MastersEducationEnglishMarks;
+                    // Bachelors
+                    ClientDetail.BachelorsEducationStartDate = userr.BachelorsEducationStartDate;
+                    ClientDetail.BachelorsEducationEndDate = userr.BachelorsEducationEndDate;
+                    ClientDetail.BachelorsEducationCompletionDate = userr.BachelorsEducationCompletionDate;
+                    ClientDetail.BachelorsInstituteInfo = userr.BachelorsInstituteInfo;
+                    ClientDetail.BachelorsEducationPercentage = userr.BachelorsEducationPercentage;
+                    ClientDetail.BachelorsEducationMathsmarks = userr.BachelorsEducationMathsmarks;
+                    ClientDetail.BachelorsEducationEnglishMarks = userr.BachelorsEducationEnglishMarks;
+                    // Secondary
+                    ClientDetail.SecondaryEducationStartDate = userr.SecondaryEducationStartDate;
+                    ClientDetail.SecondaryEducationEndDate = userr.SecondaryEducationEndDate;
+                    ClientDetail.SecondaryEducationCompletionDate = userr.SecondaryEducationCompletionDate;
+                    ClientDetail.SecondaryInstituteInfo = userr.SecondaryInstituteInfo;
+                    ClientDetail.SecondaryEducationPercentage = userr.SecondaryEducationPercentage;
+                    ClientDetail.SecondaryEducationMathsmarks = userr.SecondaryEducationMathsmarks;
+                    ClientDetail.SecondaryEducationEnglishMarks = userr.SecondaryEducationEnglishMarks;
+                    // Matriculation
+                    ClientDetail.MatricEducationStartDate = userr.MatricEducationStartDate;
+                    ClientDetail.MatricEducationEndDate = userr.MatricEducationEndDate;
+                    ClientDetail.MatricEducationCompletionDate = userr.MatricEducationCompletionDate;
+                    ClientDetail.MatricInstituteInfo = userr.MatricInstituteInfo;
+                    ClientDetail.MatricEducationPercentage = userr.MatricEducationPercentage;
+                    ClientDetail.MatricEducationMathsmarks = userr.MatricEducationMathsmarks;
+                    ClientDetail.MatricEducationEnglishMarks = userr.MatricEducationEnglishMarks;
+                    // Job
+                    ClientDetail.CompanyName = userr.CompanyName;
+                    ClientDetail.JobTitle = userr.JobTitle;
+                    ClientDetail.JobStartDate = userr.JobStartDate;
+                    ClientDetail.JobEndDate = userr.JobEndDate;
+                    ClientDetail.IsRefusedVisa = userr.IsRefusedVisa;
+                    ClientDetail.ExplainIfRefused = userr.ExplainIfRefused;
+                    ClientDetail.HaveStudyPermitVisa = userr.HaveStudyPermitVisa;
+                }
+                else
                 {
-                    AgentId = agentId,
-                    StudentId = role.UserId,
-                };
+                    // Assigning role to user
+                    var role = new AspNetRoles()
+                    {
+                        UserId = user.UserId,
+                        Role = "client"
+                    };
 
-                _context.AspNetUsersManager.Add(member);
+                    // Assigning user to agent
+                    var member = new AspNetUsersManager()
+                    {
+                        AgentId = agentId,
+                        StudentId = role.UserId,
+                        DOJ = DateTime.UtcNow.Date
+                    };
+
+                    _context.AspNetUsers.Add(user);
+                    _context.SaveChanges();
+
+                    role.UserId = user.UserId;
+                    _context.AspNetRoles.Add(role);
+                    _context.SaveChanges();
+
+                    userr.UserId = role.UserId;
+                    _context.AspNetStudentsInfo.Add(userr);
+
+                    MultipleFileUploadAsync(data, path, userr.UserId);
+
+                    member.StudentId = userr.UserId;
+                    _context.AspNetUsersManager.Add(member);
+                }
                 await _context.SaveChangesAsync();
-
-                // Committing transaction
                 transaction.Commit();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.InnerException.Message);
-                if (ex.InnerException.Message.Contains("duplicate"))
+                if (ex.InnerException.Message.Contains($"The duplicate key value is ({user.Email})"))
                     user.UserId = (-1);
             }
             return user.UserId;
         }
 
-        public async Task<List<string>> MultipleFileUploadAsync(AspNetUsersDocs _file, string rootPath, int userId)
+        public List<string> MultipleFileUploadAsync(AspNetUsersDocs _file, string rootPath, int userId, [Optional] string email)
         {
             string uniqueFileName = null;
             string filePath = null;
             List<string> url = new List<string>();
+            List<string> existing = new List<string>();
             var uId = userId;
+
+            if(uId == 0 && email != null)
+                uId = _context.AspNetUsers.Where(x => x.Email == email).Select(u => u.UserId).FirstOrDefault();
+
             if (_file.Document != null && _file.Document.Count > 0 && uId > 0)
             {
                 int count = 0;
@@ -110,7 +192,8 @@ namespace Imm.BLL
                         uniqueFileName = fName + "_" + item.FileName;
                         filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                        item.CopyTo(new FileStream(filePath, FileMode.Create));
+                        // step x-x
+                        
                         _logger.LogError("File uploaded succesfully, writing to database.");
                         url.Add(filePath);
 
@@ -122,26 +205,37 @@ namespace Imm.BLL
                         };
 
                         if (count == 1)
-                            finFile.Type = "Passport";
+                            finFile.Type = "passport";
                         if (count == 2)
-                            finFile.Type = "English Exam Certificate";
+                            finFile.Type = "exam";
                         if (count == 3)
-                            finFile.Type = "Matriculation Certificate";
+                            finFile.Type = "matriculation";
                         if (count == 4)
-                            finFile.Type = "Secondary Certificate";
+                            finFile.Type = "secondary";
                         if (count == 5)
-                            finFile.Type = "Bachelors Certificate";
+                            finFile.Type = "bachelors";
                         if (count == 6)
-                            finFile.Type = "Experience Certificate";
+                            finFile.Type = "experience";
 
-                        _context.AspNetUserDocs.Add(finFile);
-                        await _context.SaveChangesAsync();
+                        var dat = _context.AspNetUserDocs.SingleOrDefault(x => x.Type == finFile.Type && x.UserId == uId);
+                        if (dat == null)
+                        {
+                            // step x-x
+                            var obj = new FileStream(filePath, FileMode.Create);
+                            item.CopyTo(obj);
+                            obj.Dispose();
+                            // step x-x end
+                            _context.AspNetUserDocs.Add(finFile);
+                            _context.SaveChanges();
+                        }
+                        if (dat != null)
+                            existing.Add(finFile.Type);
                     }
                     continue;
                 }
-                return url;
+                return existing;
             }
-            _logger.LogError("Something error in ServiceClient");
+            _logger.LogError("Something error in ServiceClient/Document not uploaded");
             return null;
         }
     }

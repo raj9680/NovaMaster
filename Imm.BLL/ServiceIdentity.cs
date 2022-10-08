@@ -12,11 +12,9 @@ namespace Imm.BLL
     {
         private readonly ILogger<AspNetUsers> _logger;
         private readonly NovaDbContext _context;
-        private readonly ServiceCommon _serviceCommon;
-        public ServiceIdentity(NovaDbContext context, ILogger<AspNetUsers> logger, ServiceCommon serviceCommon)
+        public ServiceIdentity(NovaDbContext context, ILogger<AspNetUsers> logger)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _serviceCommon = serviceCommon;
             _logger = logger;
         }
 
@@ -31,6 +29,16 @@ namespace Imm.BLL
             return res;
         }
 
+        public async Task<AspNetStudentsInfo> ClientViewInfoAsync(string email)
+        {
+            var res = _context.AspNetUsers.Where(o => o.Email == email).FirstOrDefault();
+            if (res == null)
+            {
+                _logger.LogWarning("Null from ServiceIdentity.IdentityViewInfoAsync");
+                return null;
+            }
+            return _context.AspNetStudentsInfo.Where(e => e.UserId == res.UserId).FirstOrDefault();
+        }
 
         public async Task<AspNetUsersInfo> IdentityViewInfoAsync(string email)
         {
@@ -106,8 +114,7 @@ namespace Imm.BLL
             return 1;
         }
 
-
-        public async Task<List<AspNetUsersDocs>> GetDocsAsync(string email)
+        public List<AspNetUsersDocs> GetDocsAsync(string email)
         {
             var res = _context.AspNetUsers.Where(x => x.Email == email).FirstOrDefault();
             var result = _context.AspNetUserDocs.Where(i => i.UserId == res.UserId);

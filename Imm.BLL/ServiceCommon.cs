@@ -52,15 +52,27 @@ namespace Imm.BLL
             }).ToListAsync();
         }
 
-
-        public async Task<List<string>> MultipleFileUploadAsync(AspNetUsersDocs _file, string rootPath, string email)
+        public AspNetUsers GetUserInfoAsync(string email)
         {
-            string uniqueFileName = null;
-            string filePath = null;
-            List<string> url = new List<string>();
+            return _context.AspNetUsers.Where(x => x.Email == email)
+                .Select(o => new AspNetUsers()
+                {
+                    Email = o.Email,
+                    FullName = o.FullName,
+                    UserId = o.UserId
+                }).FirstOrDefault();
+        }
+
+        public List<string> MultipleFileUploadAsync(AspNetUsersDocs _file, string rootPath, string email)
+        {
             var uId = _context.AspNetUsers.Where(x => x.Email == email).Select(o => o.UserId).FirstOrDefault();
             if (_file.Document != null && _file.Document.Count > 0 && uId > 0)
             {
+                string uniqueFileName = null;
+                string filePath = null;
+                List<string> url = new List<string>();
+                List<string> existing = new List<string>();
+
                 int count = 0;
                 var fName = "";
                 foreach (IFormFile item in _file.Document)
@@ -74,13 +86,13 @@ namespace Imm.BLL
                             fName = uId + "_cover";
                         if (count == 3)
                             fName = uId + "_certificate";
-                        /// string ext = Path.GetExtension(model.AgentDocs.BusinessCertificate.FileName).ToLower();
                         string uploadsFolder = Path.Combine(rootPath + "/images/img");
                         uniqueFileName = fName + "_" + item.FileName;
                         filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                        item.CopyTo(new FileStream(filePath, FileMode.Create));
-                        _logger.LogError("File uploaded succesfully, writing to database.");
+                        // step x-x
+                        
+                        _logger.LogInformation("File uploaded succesfully, writing to database.");
                         url.Add(filePath);
 
                         AspNetUsersDocs finFile = new AspNetUsersDocs()
@@ -91,44 +103,36 @@ namespace Imm.BLL
                         };
 
                         if (count == 1)
-                            finFile.Type = "Business Logo";
+                            finFile.Type = "logo";
                         if (count == 2)
-                            finFile.Type = "Cover Photo";
+                            finFile.Type = "cover";
                         if (count == 3)
-                            finFile.Type = "Business Certificate";
+                            finFile.Type = "certificate";
 
-                        _context.AspNetUserDocs.Add(finFile);
-                            await _context.SaveChangesAsync();
+                        var dat = _context.AspNetUserDocs.SingleOrDefault(x => x.Type == finFile.Type);
+                        if (dat == null)
+                        {
+                            // step x-x
+                            var obj = new FileStream(filePath, FileMode.Create);
+                            item.CopyTo(obj);
+                            obj.Dispose();
+                            // end
+
+                            _context.AspNetUserDocs.Add(finFile);
+                            _context.SaveChanges();
+                        }
+                        if (dat != null)
+                            existing.Add(finFile.Type);
                     }
                     continue; 
                 }
-                return url;
+                return existing;
             }
             _logger.LogError("Something error in ServiceCommon");
             return null;
         }
 
-
-        /// Currently not in use
-        public AspNetUsersDocs SingleFileUploadAsync(AspNetUsersDocs _file, string rootPath)
-        {
-            string uniqueFileName = null;
-            string filePath = null;
-            if (_file.Document != null && _file.Document.Count == 1)
-            {
-                foreach (IFormFile item in _file.Document)
-                {
-                    string uploadsFolder = Path.Combine(rootPath + "/images/img");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + item.FileName;
-                    filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    item.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
-            }
-            return _file;
-        }
-        /// Currently not in use End
-
+        
         public async Task<string> ViewFileAsync(int docId)
         {
             var res = await _context.AspNetUserDocs.FindAsync(docId);
@@ -150,9 +154,65 @@ namespace Imm.BLL
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, "Something wrng with ServiceCommon.ResetpasswordAsync");
+                _logger.LogError(ex.Message, "Something wrong with ServiceCommon.ResetPasswordAsync");
                 return false;
             }
+        }
+
+        public List<AgentStudentViewModel> ClientAgentViewAsync(string email)
+        {
+            if (email == null)
+                return null;
+            int userId = _context.AspNetUsers.Where(x => x.Email == email).Select(o => o.UserId).FirstOrDefault();
+            List<AgentStudentViewModel> res = new List<AgentStudentViewModel>();
+            var q = (from um in _context.AspNetUsersManager
+                     join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
+                     join u in _context.AspNetUsers on si.UserId equals u.UserId
+                     where um.AgentId == userId
+                     select new { um.DOJ, si.ContactNumber, si.DOB, si.UserId, u.FullName, u.Email, u.CnfEmail }
+                        ).ToList();
+
+            foreach (var item in q)
+            {
+                AgentStudentViewModel data = new AgentStudentViewModel()
+                {
+                    UserId = item.UserId,
+                    ContactNumber = item.ContactNumber,
+                    FullName = item.FullName,
+                    Email = item.Email,
+                    DOB = item.DOB,
+                    DOJ = item.DOJ,
+                    Confirmed = item.CnfEmail
+                };
+                res.Add(data);
+            }
+            return res;
+        }
+
+        public bool DeleteFileAsync(int docId, string docName, string _rootPath)
+        {
+            if(docId > 0)
+            {
+                AspNetUsersDocs Id = new AspNetUsersDocs()
+                {
+                    UserId = 4, 
+                    DocId = docId,
+                    DocumentName = docName
+                };
+                var id = _context.AspNetUserDocs.AsNoTracking().Where(x => x.DocId == Id.DocId).Select(o => new { o.DocId, o.Type })
+                .FirstOrDefault();
+                if (id.DocId > 0)
+                {
+                    if (File.Exists(_rootPath+"/images/img/" + Id.UserId + "_" + id.Type + "_" + Id.DocumentName))
+                    {
+                        File.Delete(_rootPath + "/images/img/" + Id.UserId + "_" + id.Type + "_" + Id.DocumentName);
+                    }
+                    _context.AspNetUserDocs.Remove(Id);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

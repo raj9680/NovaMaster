@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JWT.Auth
 {
@@ -31,7 +30,8 @@ namespace JWT.Auth
                     new Claim[] { 
                         new Claim(ClaimTypes.Email, user.Email),
                         new Claim(ClaimTypes.Role, role.Role),
-                        new Claim(ClaimTypes.Name, user.UserId.ToString())
+                        new Claim(ClaimTypes.Name, user.FullName)
+                        //new Claim(ClaimTypes.Name, user.UserId.ToString())
                     }),
                 Expires = DateTime.Now.AddMinutes(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenkey), SecurityAlgorithms.HmacSha256)

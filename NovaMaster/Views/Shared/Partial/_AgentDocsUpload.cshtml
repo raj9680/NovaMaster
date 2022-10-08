@@ -1,0 +1,29 @@
+﻿@model NovaMaster.Models._InformationModel;
+<style>
+    .mt-10 {
+        margin-top: 80px;
+    }
+</style>
+<div class="row mt-80">
+    <div class="col-4 form-group">
+        <label>Company Logo</label>
+        <input asp-for="@Model.AgentDocs.CompanyLogo" class="form-control">
+        @Html.ValidationMessage("logoDoc", "", new { @class = "text-danger" })
+        @Html.ValidationMessage("maxLogo", "", new { @class = "text-danger" })
+        @Html.ValidationMessage("invalidLogo", "", new { @class = "text-danger" })
+    </div>
+    <div class="col-4 form-group">
+        <label>Cover Photo</label>
+        <input asp-for="@Model.AgentDocs.CoverPhoto" class="form-control">
+        @Html.ValidationMessage("coverDoc", "", new { @class = "text-danger" })
+        @Html.ValidationMessage("maxCover", "", new { @class = "text-danger" })
+        @Html.ValidationMessage("invalidCover", "", new { @class = "text-danger" })
+    </div>
+    <div class="col-4 form-group">
+        <label>Business Certificate</label>
+        <input asp-for="@Model.AgentDocs.BusinessCertificate" class="form-control">
+        @Html.ValidationMessage("businessDoc", "", new { @class = "text-danger" })
+        @Html.ValidationMessage("maxCertificate", "", new { @class = "text-danger" })
+        @Html.ValidationMessage("invalidCertificate", "", new { @class = "text-danger" })
+    </div>
+</div>

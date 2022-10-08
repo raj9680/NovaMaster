@@ -1,12 +1,15 @@
 ﻿using Imm.BLL;
 using Imm.DAL.Data.Table;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NovaMaster.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NovaMaster.Controllers
@@ -52,6 +55,11 @@ namespace NovaMaster.Controllers
             return new JsonResult(ViewBag.City);
         }
 
+        public AspNetUsers GetUserInfo(string email)
+        {
+            return _serviceCommon.GetUserInfoAsync(email);
+        }
+
         [HttpPost]
         public async Task<string> MultipleFileUpload(ModelAspNetusersDocs model, string email)
         {
@@ -67,16 +75,21 @@ namespace NovaMaster.Controllers
                     DocumentURL = model.DocumentURL
                     };
                     string rootPath = _hostingEnvironment.WebRootPath;
-                    result =  await _serviceCommon.MultipleFileUploadAsync(_File, rootPath, email);
+                    result =  _serviceCommon.MultipleFileUploadAsync(_File, rootPath, email);
                 }
             }
             catch(Exception ex)
             {
                 if (ex.Message.Contains("being used by another process"))
-                    return "being used by another process";
-                _logger.LogError(ex.Message, "Image is either already in use or it is duplicate.");
+                    _logger.LogError(ex.Message, "Image is either already in use or it is duplicate.");
+                return "being used by another process";
             }
             return result.ToString();
+        }
+
+        public IActionResult InviteClient()
+        {
+            return RedirectToAction("InviteClient","Client");
         }
 
         public IActionResult ResetPassword([FromQuery] int anonymous, bool IsSuccess = false, bool IsBadRequest = false)
@@ -114,6 +127,21 @@ namespace NovaMaster.Controllers
                 }
             }
             return View(model);
+        }
+
+
+        [Authorize(Roles = "agent,admin")]
+        public List<AgentStudentViewModel> ClientAgent(string email)
+        {
+            return _serviceCommon.ClientAgentViewAsync(email);
+        }
+
+
+        [Authorize]
+        public bool DeleteFile(int docId, string docName)
+        {
+            var _rootPath = _hostingEnvironment.WebRootPath;
+            return _serviceCommon.DeleteFileAsync(docId, docName, _rootPath);
         }
     }
 }

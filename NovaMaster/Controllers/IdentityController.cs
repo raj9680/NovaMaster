@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using NovaMaster.Controllers._Helpers;
 using NovaMaster.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
@@ -42,7 +43,8 @@ namespace NovaMaster.Controllers
                     UserId = result.UserId,
                     FullName = result.FullName,
                     Email = result.Email,
-                    Password = result.Password
+                    Password = result.Password,
+                    IsActive = result.IsActive
                 };
                 return res;
             }
@@ -66,7 +68,8 @@ namespace NovaMaster.Controllers
                     StudentSource = result.StudentSource,
                     ContactNumber = result.ContactNumber,
                     AddressLine1 = result.AddressLine1,
-                    AddressLine2 = result.AddressLine2
+                    AddressLine2 = result.AddressLine2,
+                    
                 };
                 res.DOB.ToString();
                 return res;
@@ -74,13 +77,50 @@ namespace NovaMaster.Controllers
             return null;
         }
 
-        public async Task<List<ModelAspNetusersDocs>> GetUsersDocs()
+
+        public async Task<ModelAspNetStudentsInfo> GetStudentsInfo()
+        {
+            string email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var ifExist = _serviceIdentity.ClientViewInfoAsync(email);
+            if (ifExist.Result != null)
+            {
+                AspNetStudentsInfo result = await _serviceIdentity.ClientViewInfoAsync(email);
+                ModelAspNetStudentsInfo res = new ModelAspNetStudentsInfo()
+                {
+                    ContactNumber = result.ContactNumber,
+                    DOB = result.DOB == null ? new DateTime() : result.DOB.Value,
+                    AddressLine1 = result.AddressLine1,
+                    AddressLine2 = result.AddressLine2,
+                    Zip = result.Zip == 0 ? 0 : result.Zip.Value,
+                    Reference = result.Reference,
+                    PrimaryLanguage = result.PrimaryLanguage,
+                    EnglishExamType = result.EnglishExamType,
+                    Intake = result.Intake,
+                    IntakeYear = result.IntakeYear == 0 ? 0 : result.IntakeYear.Value,
+                    Program = result.Program,
+                    ProgramCollegePreference = result.ProgramCollegePreference,
+                    CompanyName = result.CompanyName,
+                    JobTitle = result.JobTitle,
+                    JobStartDate = result.JobStartDate == null ? new DateTime() : result.JobStartDate.Value,
+                    JobEndDate = result.JobEndDate == null ? new DateTime() : result.JobEndDate.Value,
+                    IsRefusedVisa = result.IsRefusedVisa,
+                    ExplainIfRefused = result.ExplainIfRefused,
+                    HaveStudyPermitVisa = result.HaveStudyPermitVisa
+                };
+                res.DOB.ToString();
+                return res;
+            }
+            return null;
+        }
+
+
+        public List<ModelAspNetusersDocs> GetUsersDocs()
         {
             var finalData = new List<ModelAspNetusersDocs>();
             string email = User.FindFirst(ClaimTypes.Email)?.Value;
             if (email != null)
             {
-                var res = await _serviceIdentity.GetDocsAsync(email);
+                var res = _serviceIdentity.GetDocsAsync(email);
                 foreach (var item in res)
                 {
                     ModelAspNetusersDocs dataList = new ModelAspNetusersDocs()
@@ -101,21 +141,20 @@ namespace NovaMaster.Controllers
             return null;
         }
 
-        [Authorize(Roles ="agent")]
-        public async Task<IActionResult> IdentityView(bool IsSuccess=false, bool IsDuplicate = false)
+        // [Authorize(Roles ="agent")]
+        public async Task<IActionResult> IdentityView(bool IsSuccess = false, bool IsDuplicate = false, bool IsFailed = false)
         {
             _InformationModel myModel = new _InformationModel();
             ViewBag.IsSuccess = IsSuccess;
             ViewBag.IsDuplicate = IsDuplicate;
+            ViewBag.IsFailed = IsFailed;
             ViewBag.Country = new SelectList(await _commonController.GetCountryAsync(), "CountryId", "CountryName");
-            myModel.Users = await GetUsers() ;
+            myModel.Users = await GetUsers();
             if (myModel.Users == null)
-            {
                 return View("error");
-            }
-            ViewBag.UserRole = User.FindFirst(ClaimTypes.Role)?.Value;
             myModel.Info = await GetUsersInfo();
-            myModel.Docs = await GetUsersDocs();
+            myModel.Docs = GetUsersDocs();
+            myModel.StudentsInfo = await GetStudentsInfo();
             return View(myModel);
         }
 
@@ -128,46 +167,47 @@ namespace NovaMaster.Controllers
                 return View("Error");
             
             bool isNumerical = int.TryParse(model.Users.FullName, out myInt);
-            model.Docs = await GetUsersDocs();
+            model.Docs = GetUsersDocs();
             ViewBag.Country = new SelectList(await _commonController.GetCountryAsync(), "CountryId", "CountryName");
-            if (model.Users.FullName == null ||  isNumerical || model.Info.ContactNumber == null || model.Info.PinCode == null || model.Info.AddressLine1 == null || model.Info.ContactNumber.Length < 10 || model.Info.ContactNumber.Length > 15 || model.Info.PinCode.Length < 6 || model.Info.PinCode.Length > 9 || model.Info.AddressLine1.Length > 60 || model.AgentDocs != null)
+            if (model.Users.FullName == null || isNumerical || model.Info.ContactNumber == null || model.Info.PinCode == null || model.Info.AddressLine1 == null || model.Info.ContactNumber.Length < 10 || model.Info.ContactNumber.Length > 15 || model.Info.PinCode.Length < 6 || model.Info.PinCode.Length > 9 || model.Info.AddressLine1.Length > 60)
             {
-                if(isNumerical)
+                if (isNumerical)
                     ModelState.AddModelError("FullName", "Name is not valid");
-                if(model.Info.AddressLine2 != null && model.Info.AddressLine2.Length > 60)
+                if (model.Info.AddressLine2 != null && model.Info.AddressLine2.Length > 60)
                     ModelState.AddModelError("AddressLine2", "Address Line 2 should not exceed 60 characters");
                 if (model.Info.About != null && model.Info.About.Length > 120)
                     ModelState.AddModelError("AddressLine2", "Address Line 2 should not exceed 60 characters");
-                
-                if (model.AgentDocs != null && model.AgentDocs.CoverPhoto != null)
-                {
-                    if (model.AgentDocs.CoverPhoto.Length > 500000)
-                    {
-                        ModelState.AddModelError("coverDoc", "Cover Photo should not exceed 500Kb of size");
-                        return View("IdentityView", model);
-                    }
-                }
+                return View(model);
+            }
 
-                if (model.AgentDocs != null && model.AgentDocs.CompanyLogo != null)
+            if (model.AgentDocs != null && model.AgentDocs.CoverPhoto != null)
+            {
+                if (model.AgentDocs.CoverPhoto.Length > 500000)
                 {
-                    if (model.AgentDocs.CompanyLogo.Length > 500000)
-                    {
-                        ModelState.AddModelError("logoDoc", "Logo should not exceed 500Kb of size");
-                        return View("IdentityView", model);
-                    }
-                }
-
-                if (model.AgentDocs != null && model.AgentDocs.BusinessCertificate != null)
-                {
-                    if (model.AgentDocs.BusinessCertificate.Length > 4000000)
-                    {
-                        ModelState.AddModelError("businessDoc", "Business Certificate should not exceed 4MB of size");
-                        return View("IdentityView", model);
-                    }
+                    ModelState.AddModelError("coverDoc", "Cover Photo should not exceed 500Kb of size");
+                    return View("IdentityView", model);
                 }
             }
 
-            if (model.AgentDocs!= null && model.AgentDocs.CoverPhoto != null && model.AgentDocs.CoverPhoto.FileName != null)
+            if (model.AgentDocs != null && model.AgentDocs.CompanyLogo != null)
+            {
+                if (model.AgentDocs.CompanyLogo.Length > 500000)
+                {
+                    ModelState.AddModelError("logoDoc", "Logo should not exceed 500Kb of size");
+                    return View("IdentityView", model);
+                }
+            }
+
+            if (model.AgentDocs != null && model.AgentDocs.BusinessCertificate != null)
+            {
+                if (model.AgentDocs.BusinessCertificate.Length > 4000000)
+                {
+                    ModelState.AddModelError("businessDoc", "Business Certificate should not exceed 4MB of size");
+                    return View("IdentityView", model);
+                }
+            }
+
+            if (model.AgentDocs != null && model.AgentDocs.CoverPhoto != null && model.AgentDocs.CoverPhoto.FileName != null)
             {
                 string ext = Path.GetExtension(model.AgentDocs.CoverPhoto.FileName);
                 ext = ext.ToLower();
@@ -199,12 +239,13 @@ namespace NovaMaster.Controllers
                     return View("IdentityView", model);
                 }
             }
-            
-            var _res = await SubmitAsync(model);
-            if (_res != null && _res.Contains("duplicate"))
-            {
-                return RedirectToAction("IdentityView", new { IsDuplicate = true });
-            }
+
+            var _res = SubmitAsync(model);
+            if (_res == "duplicate")
+                return RedirectToAction("IdentityView", new { IsDuplicate = true, IsSuccess = false });
+
+            if (_res != null)
+                return RedirectToAction("IdentityView", new { IsDuplicate = false, IsSuccess = true });
 
             var model1 = new AspNetUsers()
             {
@@ -237,25 +278,27 @@ namespace NovaMaster.Controllers
             return View("IdentityView", model);
         }
 
-        public async Task<string> SubmitAsync(_InformationModel model)
+        public string SubmitAsync(_InformationModel model)
         {
-            if (model.AgentDocs != null && model.AgentDocs.BusinessCertificate != null)
+            if (model.AgentDocs != null)
             {
                 ModelAspNetusersDocs doc = new ModelAspNetusersDocs();
                 doc.Document = new List<Microsoft.AspNetCore.Http.IFormFile>();
                 doc.Document.Add(model.AgentDocs.CompanyLogo);
                 doc.Document.Add(model.AgentDocs.CoverPhoto);
                 doc.Document.Add(model.AgentDocs.BusinessCertificate);
-                var ress = await _commonController.MultipleFileUpload(doc, model.Users.Email);
-                _logger.LogInformation("Agent files uploaded successfully");
-                if (ress == null)
-                    _logger.LogError("Something error with file agent uploading");
-                if(ress.Contains("being used by another process"))
+                var ress = _commonController.MultipleFileUpload(doc, model.Users.Email);
+                if(ress.Result.Contains("being used by another process"))
                 {
-                    _logger.LogError("Files is already in use by the process or the file is duplicate");
                     return "duplicate";
                 }
-                return ress.ToString();
+                if (ress != null)
+                {
+                    _logger.LogInformation("Agent files uploaded successfully");
+                    return ress.ToString();
+                }
+                if (ress == null)
+                    _logger.LogError("Something error with file agent uploading");
             }
             return null;
         }

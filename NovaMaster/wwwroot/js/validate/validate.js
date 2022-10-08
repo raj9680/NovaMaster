@@ -1,4 +1,4 @@
-﻿// prevent enter 
+﻿// prevent enter
 $(document).ready(function () {
     $(window).keydown(function (event) {
         if (event.keyCode == 13) {
@@ -711,5 +711,5 @@ function IsAlreadyExist(email) {
             }
         }
     });
-    return bool;
+    // return bool;
 }

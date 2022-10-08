@@ -1,0 +1,52 @@
+﻿@model NovaMaster.Models._InformationModel;
+<style>
+    .mt-80{
+        margin-top:80px;
+    }
+</style>
+
+<form class="row mt-80" enctype="multipart/form-data" method="post" asp-controller="Client" asp-action="UploadAsyncc">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="@Model.ClientDocs.Passport">Passport</label>
+            <input asp-for="@Model.ClientDocs.Passport" class="form-control">
+            <span asp-validation-for="@Model.ClientDocs.Passport" class="text-danger"></span>@Html.ValidationMessage("Passport", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="@Model.ClientDocs.EnglishExam">Exam(IELTS, TOFEL etc.)</label>
+            <input asp-for="@Model.ClientDocs.EnglishExam" class="form-control">
+            <span asp-validation-for="@Model.ClientDocs.EnglishExam" class="text-danger"></span>@Html.ValidationMessage("EnglishExam", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="@Model.ClientDocs.Matriculation">Matriculation</label>
+            <input asp-for="@Model.ClientDocs.Matriculation" class="form-control">
+            <span asp-validation-for="@Model.ClientDocs.Matriculation" class="text-danger"></span>@Html.ValidationMessage("Matriculation", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="@Model.ClientDocs.SeniorSecondary">Secondary</label>
+            <input asp-for="@Model.ClientDocs.SeniorSecondary" class="form-control">
+            <span asp-validation-for="@Model.ClientDocs.SeniorSecondary" class="text-danger"></span>@Html.ValidationMessage("Secondary", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="@Model.ClientDocs.BachelorsDegree">Bachelor's Certificate</label>
+            <input asp-for="@Model.ClientDocs.BachelorsDegree" class="form-control">
+            <span asp-validation-for="@Model.ClientDocs.BachelorsDegree" class="text-danger"></span>@Html.ValidationMessage("Bachelors", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="@Model.ClientDocs.WorkExperience">Work Experience</label>
+            <input asp-for="@Model.ClientDocs.WorkExperience" class="form-control">
+            <span asp-validation-for="@Model.ClientDocs.WorkExperience" class="text-danger"></span>@Html.ValidationMessage("WorkExperience", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Upload</button>
+</form>

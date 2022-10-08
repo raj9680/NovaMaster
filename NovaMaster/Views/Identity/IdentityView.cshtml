@@ -1,10 +1,22 @@
 ﻿@model NovaMaster.Models._InformationModel;
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "agent")
+    {
+        Layout = "_Layout";
+    }
+    else if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "client")
+    {
+        Layout = "_LayoutClient";
+    }
+}
 <div class="content-page">
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="profile-bg-picture" style="background-image:url('~/images/bg-profile.jpg')">
+                    <div class="profile-bg-picture" style="background-image: url('/images/bg-profile.jpg')">
                         <span class="picture-bg-overlay"></span>
                     </div>
                     <div class="profile-user-box">
@@ -27,9 +39,6 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-right">
-                                    <button type="button" class="btn btn-success waves-effect waves-light">
-                                        <i class="mdi mdi-account-settings-variant mr-1"></i> Edit Profile
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -47,224 +56,21 @@
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#user-settings">Profile Settings</a></li>
                             </ul>
                             <div class="tab-content m-0 p-4">
-                                <div id="aboutme" class="tab-pane active">
-                                    <h5 class="mt-4">Contact Information</h5>
-                                    <div class="row profile-desk">
-                                        @* Table One *@
-                                        <table class="col-sm-6 table table-condensed mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">Url</th>
-                                                    <td>
-                                                        <a href="#" class="ng-binding">
-                                                            https://url.com/url
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Email</th>
-                                                    <td>
-                                                        <a href="vertical.html" class="ng-binding">
-                                                            @if (Model.Users != null)
-                                                            {
-                                                                @Model.Users.Email;
-                                                            }
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Phone</th>
-                                                    <td class="ng-binding">
-                                                        @if (Model.Info != null)
-                                                        {
-                                                            @Model.Info.ContactNumber;
-                                                        }
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">DOB</th>
-                                                    <td>
-                                                        <a href="#" class="ng-binding">
-                                                            @if (Model.Info != null)
-                                                            {
-                                                                @Model.Info.DOB;
-                                                            }
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        @* Table Two *@
-                                        <table class="col-sm-6 table table-condensed mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">Url</th>
-                                                    <td>
-                                                        <a href="#" class="ng-binding">
-                                                            https://url.com/url
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Address</th>
-                                                    <td>
-                                                        <a href="vertical.html" class="ng-binding">
-                                                            @if (Model.Info != null)
-                                                            {
-                                                                @Model.Info.AddressLine1;
-                                                            }
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Phone</th>
-                                                    <td class="ng-binding">
-                                                        @if (Model.Info != null)
-                                                        {
-                                                            @Model.Info.ContactNumber;
-                                                        }
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Account Status</th>
-                                                    <td>
-                                                        @if (Model.Users.IsActive)
-                                                         {
-                                                        <a href="javascript:void(0)" class="ng-binding">
-                                                            Verified
-                                                        </a>
-                                                         }
-                                                        else
-                                                        {
-                                                        <a href="javascript:void(0)" class="ng-binding">
-                                                            Not Verified
-                                                        </a>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <!-- Information -->
-                                @if (ViewBag.IsSuccess != null && ViewBag.IsSuccess == true)
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "agent")
                                 {
-                                    <script>alert("Records updated successfully!");</script>
+                                    <partial name="Partial/_AgentInformation" />
+                                    <partial name="Partial/_AgentInfo" />
                                 }
-                                @if (ViewBag.IsDuplicate != null && ViewBag.IsDuplicate == true)
+                                else if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "client")
                                 {
-                                    <script>alert("Document not uploaded, either it is used by another process or it is duplicate. Please try again.");</script>
+                                    <partial name="Partial/_ClientInformation" />
+                                    <partial name="Partial/_ClientInfo" />
                                 }
-                                <div id="edit-information" class="tab-pane">
-                                    <div class="user-profile-content">
-                                        <form enctype="multipart/form-data" method="post" asp-controller="Identity" asp-action="IdentityView">
-                                            <div class="row">
-                                                <div class="col-6 form-group">
-                                                    <label asp-for="@Model.Info.CompanyName">Company Name</label>
-                                                    <input type="text" asp-for="@Model.Info.CompanyName" value="@if (Model.Info != null){@Model.Info.CompanyName; }" class="form-control">
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <label asp-for="@Model.Info.Website">Website</label>
-                                                    <input type="url" asp-for="@Model.Info.Website" value="@if (Model.Info != null){@Model.Info.Website; }" class="form-control">
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-6 form-group">
-                                                    <label asp-for="@Model.Users.FullName">Full Name</label>
-                                                    <input type="text" asp-for="@Model.Users.FullName" value="@if (Model.Users != null){@Model.Users.FullName; }" id="FullName" class="form-control">
-                                                    <span asp-validation-for="@Model.Users.FullName" class="text-danger"></span>
-                                                    @Html.ValidationMessage("FullName", "", new { @class = "text-danger" })
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <label asp-for="@Model.Users.Email">Email</label>
-                                                    <input type="email" asp-for="@Model.Users.Email" value="@if (Model.Users != null){@Model.Users.Email; }" readonly id="Email" class="form-control">
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="form-group">
-                                                <label asp-for="@Model.Info.StudentSource">Main Sources of Students</label>
-                                                <select class="form-control" asp-for="@Model.Info.StudentSource" id="source" data-toggle="select1" asp-items="@ViewBag.Country">
-                                                    <option value="-1" selected>---Select Country---</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-6 form-group">
-                                                    <label asp-for="@Model.Info.AddressLine1">Address Line 1</label>
-                                                    <textarea style="height: 50px;" asp-for="@Model.Info.AddressLine1" class="form-control"></textarea>
-                                                    <span asp-validation-for="@Model.Info.AddressLine1" class="text-danger"></span>
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <label asp-for="@Model.Info.AddressLine2">Address Line 2</label>
-                                                    <textarea style="height: 50px;" asp-for="@Model.Info.AddressLine2" class="form-control"></textarea>
-                                                    <span asp-validation-for="@Model.Info.AddressLine2" class="text-danger"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                @* Pending *@
-                                                <div class="col-4 form-group">
-                                                    <label asp-for="@Model.Info.PinCode">PIN Code</label>
-                                                    <input type="text" asp-for="@Model.Info.PinCode" value="@if (Model.Info != null){@Model.Info.PinCode; }" class="form-control">
-                                                    <span asp-validation-for="@Model.Info.PinCode" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="col-4 form-group">
-                                                    @Html.Label("Date of Birth", null, new { @class = "control-label col-xs-3" })
-                                                    <input class="form-control" required asp-for="@Model.Info.DOB" type="date" value="@if (Model.Info != null){@Model.Info.DOB; }">
-                                                    <span asp-validation-for="@Model.Info.DOB" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="col-4 form-group">
-                                                    <label asp-for="@Model.Info.ContactNumber">Contact Number</label>
-                                                    <input type="text" asp-for="@Model.Info.ContactNumber" value="@if (Model.Info != null){@Model.Info.ContactNumber; }" class="form-control">
-                                                    <span asp-validation-for="@Model.Info.ContactNumber" class="text-danger"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <partial name="Partial/_Country" />
-                                                <partial name="Partial/_State" />
-                                                <partial name="Partial/_City" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label asp-for="@Model.Info.About">About Me</label>
-                                                <textarea style="height: 125px;" asp-for="@Model.Info.About" class="form-control">@if (Model.Info != null){@Model.Info.About; }</textarea>
-                                                <span asp-validation-for="@Model.Info.About" class="text-danger"></span>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-4 form-group">
-                                                    <label>Company Logo</label>
-                                                    <input asp-for="@Model.AgentDocs.CompanyLogo" class="form-control">
-                                                    @Html.ValidationMessage("logoDoc", "", new { @class = "text-danger" })
-                                                    @Html.ValidationMessage("maxLogo", "", new { @class = "text-danger" })
-                                                    @Html.ValidationMessage("invalidLogo", "", new { @class = "text-danger" })
-                                                </div>
-                                                <div class="col-4 form-group">
-                                                    <label>Cover Photo</label>
-                                                    <input asp-for="@Model.AgentDocs.CoverPhoto" class="form-control">
-                                                    @Html.ValidationMessage("coverDoc", "", new { @class = "text-danger" })
-                                                    @Html.ValidationMessage("maxCover", "", new { @class = "text-danger" })
-                                                    @Html.ValidationMessage("invalidCover", "", new { @class = "text-danger" })
-                                                </div>
-                                                <div class="col-4 form-group">
-                                                    <label>Business Certificate</label>
-                                                    <input asp-for="@Model.AgentDocs.BusinessCertificate" class="form-control">
-                                                    @Html.ValidationMessage("businessDoc", "", new { @class = "text-danger" })
-                                                    @Html.ValidationMessage("maxCertificate", "", new { @class = "text-danger" })
-                                                    @Html.ValidationMessage("invalidCertificate", "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-primary" type="submit">Save</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- Information -->
-                                <!-- profile -->
+                                else
+                                {
+                                    <partial name="Partial/_AgentInformation" />
+                                    <partial name="Partial/_AgentInfo" />
+                                }
                                 <div id="submitted-documents" class="tab-pane">
                                     <div class="row m-t-10">
                                         <div class="col-md-12">
@@ -281,44 +87,38 @@
                                                                         <th>Remarks</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
-                                                                    @if (Model.Docs != null)
-                                                                    {
-
-
-                                                                        @foreach (var item in Model.Docs)
-                                                                        {
-                                                                            <tr>
-                                                                                @*
-                                                        <td>1</td>
-                                                                                *@
-                                                                                <td>@item.DocumentName</td>
-                                                                                <td><a href="javascript:void(0)" class="file" id="@item.DocId" name="@item.DocId">View Document</a></td>
-                                                                                @if (item.IsVerified == true)
-                                                                                {
-                                                                                    <td><span class="badge badge-pink">Verified</span></td>
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <td>
-                                                                                        <span class="badge badge-warning">Pending verification</span>
-                                                                                    </td>
-                                                                                }
-                                                                                <td>@item.Comments</td>
-                                                                            </tr>
-                                                                        }
-                                                                    }
-                                                                </tbody>
+        <tbody>
+            @if (Model.Docs != null)
+            {
+                @foreach (var item in Model.Docs)
+                {
+                    <tr class="editField">
+                        <td>@item.DocumentName</td>
+                        <td><a href="javascript:void(0)" class="file" id="@item.DocId" name="@item.DocId">View Document</a></td>
+                        @if (item.IsVerified == true)
+                        { <td><span class="badge badge-pink">Verified</span></td> }
+                        else { <td>
+    <span class="badge badge-warning">Pending verification</span>
+                        @if (item.IsVerified == false)
+                            {<a href="javascript:void(0)" class="docId" id="@item.DocId" name="@item.DocumentName"> &#x2716 </a>}
+                        </td> }
+                        <td>@item.Comments</td>
+                    </tr>
+                }
+            }
+        </tbody>
                                                             </table>
                                                         </div>
+                                                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "client")
+                                                        {
+                                                            <partial name="Partial/_ClientDocsUpload" />
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Settings AJAX Post-->
                                 <div id="user-settings" class="tab-pane">
                                     <div class="user-profile-content">
                                         <form id="onSubmit">
@@ -338,7 +138,6 @@
                                         </form>
                                     </div>
                                 </div>
-                               <!-----Settings AJAX Post-->
                             </div>
                         </div>
                     </div>
@@ -357,5 +156,30 @@
             </div>
         </div>
     </footer>
-    <!-- end Footer -->
 </div>
+@section scriptts{
+    <script src="~/js/validate/validate2.js"></script>
+}
+@* Alerts *@
+@if (ViewBag.IsSuccess != null && ViewBag.IsSuccess == true)
+{
+    <script>
+        alert("Records updated successfully!");
+        window.history.pushState({}, '', '/Identity/IdentityView');
+    </script>
+}
+@if (ViewBag.IsFailed != null && ViewBag.IsFailed == true)
+{
+    <script>
+        alert("Failed to update records!");
+        window.history.pushState({}, '', '/Identity/IdentityView');
+    </script>
+}
+@if (ViewBag.IsDuplicate != null && ViewBag.IsDuplicate == true)
+{
+    <script>
+        alert("One or more file is already uploaded");
+        window.history.pushState({}, '', '/Identity/IdentityView');
+    </script>
+}
+@* Alerts *@

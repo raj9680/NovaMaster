@@ -24,8 +24,8 @@
                             </li>
                         </ul>
                     </div>
-                    <form action="@Url.Action("AddClient", "Client")?Id=@ViewBag.AgentId" enctype="multipart/form-data" method="post">
-                        <input asp-for="@Model.Users.AgentId" value="@ViewBag.AgentId" style="display:none" class="form-control">
+                    <form action="@Url.Action("AddClient", "Client")?anonymous=@ViewBag.AgentId" enctype="multipart/form-data" method="post">
+                        <input asp-for="@Model.Users.AgentId" value="@ViewBag.AgentId" style="display:none" class="form-control" id="annotation">
                         <div class="tab-content" id="main_form">
                             <div class="tab-pane active" role="tabpanel" id="step1">
                                 <h4 class="text-center">Account Information</h4>
@@ -43,6 +43,7 @@
                                             <label asp-for="@Model.Users.Email">Email  *</label>
                                             <input asp-for="@Model.Users.Email" class="form-control" type="email">
                                             <span asp-validation-for="@Model.Users.Email" class="text-danger"></span>@Html.ValidationMessage("Email", "", new { @class = "text-danger" })
+                                            @Html.ValidationMessage("ExistingEmail", "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -516,7 +517,7 @@
         </div>
     </div>
 </section>
-@section scripts{
+@section script{
     <script src="~/js/validate/validate.js"></script>
 }
 <style>

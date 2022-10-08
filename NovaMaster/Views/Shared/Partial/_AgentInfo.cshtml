@@ -1,0 +1,100 @@
+﻿@model NovaMaster.Models._InformationModel;
+
+<div id="edit-information" class="tab-pane">
+    <div class="user-profile-content">
+        <form enctype="multipart/form-data" method="post" asp-controller="Identity" asp-action="IdentityView">
+            <div class="row">
+                <div class="col-6 form-group">
+                    <label asp-for="@Model.Info.CompanyName">Company Name</label>
+                    <input type="text" asp-for="@Model.Info.CompanyName" value="@if (Model.Info != null){@Model.Info.CompanyName; }" class="form-control">
+                </div>
+                <div class="col-6 form-group">
+                    <label asp-for="@Model.Info.Website">Website</label>
+                    <input type="url" asp-for="@Model.Info.Website" value="@if (Model.Info != null){@Model.Info.Website; }" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 form-group">
+                    <label asp-for="@Model.Users.FullName">Full Name</label>
+                    <input type="text" asp-for="@Model.Users.FullName" value="@if (Model.Users != null){@Model.Users.FullName; }" id="FullName" class="form-control">
+                    <span asp-validation-for="@Model.Users.FullName" class="text-danger"></span>
+                    @Html.ValidationMessage("FullName", "", new { @class = "text-danger" })
+                </div>
+                <div class="col-6 form-group">
+                    <label asp-for="@Model.Users.Email">Email</label>
+                    <input type="email" asp-for="@Model.Users.Email" value="@if (Model.Users != null){@Model.Users.Email; }" readonly id="Email" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Info.StudentSource">Main Sources of Students</label>
+                <select class="form-control" asp-for="@Model.Info.StudentSource" id="source" data-toggle="select1" asp-items="@ViewBag.Country">
+                    <option value="-1" selected>---Select Country---</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-6 form-group">
+                    <label asp-for="@Model.Info.AddressLine1">Address Line 1</label>
+                    <textarea style="height: 50px;" asp-for="@Model.Info.AddressLine1" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.Info.AddressLine1" class="text-danger"></span>
+                </div>
+                <div class="col-6 form-group">
+                    <label asp-for="@Model.Info.AddressLine2">Address Line 2</label>
+                    <textarea style="height: 50px;" asp-for="@Model.Info.AddressLine2" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.Info.AddressLine2" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                @* Pending *@
+                <div class="col-4 form-group">
+                    <label asp-for="@Model.Info.PinCode">PIN Code</label>
+                    <input type="text" asp-for="@Model.Info.PinCode" value="@if (Model.Info != null){@Model.Info.PinCode; }" class="form-control">
+                    <span asp-validation-for="@Model.Info.PinCode" class="text-danger"></span>
+                </div>
+                <div class="col-4 form-group">
+                    @Html.Label("Date of Birth", null, new { @class = "control-label col-xs-3" })
+                    <input class="form-control" required asp-for="@Model.Info.DOB" type="date" value="@if (Model.Info != null){@Model.Info.DOB; }">
+                    <span asp-validation-for="@Model.Info.DOB" class="text-danger"></span>
+                </div>
+                <div class="col-4 form-group">
+                    <label asp-for="@Model.Info.ContactNumber">Contact Number</label>
+                    <input type="text" asp-for="@Model.Info.ContactNumber" value="@if (Model.Info != null){@Model.Info.ContactNumber; }" class="form-control">
+                    <span asp-validation-for="@Model.Info.ContactNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <partial name="Partial/_Country" />
+                <partial name="Partial/_State" />
+                <partial name="Partial/_City" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Info.About">About Me</label>
+                <textarea style="height: 125px;" asp-for="@Model.Info.About" class="form-control">@if (Model.Info != null){@Model.Info.About; }</textarea>
+                <span asp-validation-for="@Model.Info.About" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-4 form-group">
+                    <label>Company Logo</label>
+                    <input asp-for="@Model.AgentDocs.CompanyLogo" class="form-control">
+                    @Html.ValidationMessage("logoDoc", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("maxLogo", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("invalidLogo", "", new { @class = "text-danger" })
+                </div>
+                <div class="col-4 form-group">
+                    <label>Cover Photo</label>
+                    <input asp-for="@Model.AgentDocs.CoverPhoto" class="form-control">
+                    @Html.ValidationMessage("coverDoc", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("maxCover", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("invalidCover", "", new { @class = "text-danger" })
+                </div>
+                <div class="col-4 form-group">
+                    <label>Business Certificate</label>
+                    <input asp-for="@Model.AgentDocs.BusinessCertificate" class="form-control">
+                    @Html.ValidationMessage("businessDoc", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("maxCertificate", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("invalidCertificate", "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+    </div>
+</div>

@@ -114,7 +114,7 @@ namespace NovaMaster
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Client}/{action=AddClient}/{id?}");
+                    pattern: "{controller=Access}/{action=Login}/{id?}");
             });
         }
     }

@@ -1,5 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -8,79 +10,36 @@
     <meta content="Responsive bootstrap 4 admin template" name="description">
     <meta content="Coderthemes" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- App favicon -->
     <link rel="shortcut icon" href="favicon.ico">
-
-    <!-- Plugins css-->
     <link href="~/css/sweetalert2.min.css" rel="stylesheet" type="text/css">
-
     <link href="~/css/datatables-dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/datatables-buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/datatables-responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/datatables-select.bootstrap4.min.css" rel="stylesheet" type="text/css">
-
-    <!-- App css -->
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
     <link href="~/css/icons.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
-
 </head>
-
 <body>
-
-    <!-- Begin page -->
     <div id="wrapper">
-
-
-        <!-- Topbar Start -->
         <div class="navbar-custom">
             <ul class="list-unstyled topnav-menu float-right mb-0">
-
-                <li class="dropdown d-none d-lg-block">
-                    <a class="nav-link dropdown-toggle mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="~/images/us.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">English <i class="mdi mdi-chevron-down"></i> </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/~/images/germany.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">German</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/images/italy.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Italian</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/images/spain.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Spanish</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/images/russia.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Russian</span>
-                        </a>
-                    </div>
-                </li>
-
                 <li class="dropdown notification-list">
                     <a class="nav-link dropdown-toggle  waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="mdi mdi-email-outline noti-icon"></i>
                         <span class="badge badge-purple rounded-circle noti-icon-badge">3</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-
-                        <!-- item-->
                         <div class="dropdown-item noti-title">
                             <h5 class="font-16 m-0">
                                 <span class="float-right">
                                     <a href class="text-dark">
                                         <small>Clear All</small>
                                     </a>
-                                </span>Chat
+                                </span>
+                                Message
                             </h5>
                         </div>
-
                         <div class="slimscroll noti-scroll">
 
                             <div class="inbox-widget">
@@ -231,62 +190,24 @@
                     <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="~/images/avatar-1.jpg" alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ml-1">
-                            Thompson   <i class="mdi mdi-chevron-down"></i>
+                            @Context.User.Identity.Name<i class="mdi mdi-chevron-down"></i>
                         </span>
                     </a>
+
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                        <!-- item-->
-                        <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome !</h6>
-                        </div>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-account-outline"></i>
-                            <span>Profile</span>
+                        <a asp-controller="Access" asp-action="Logout" class="dropdown-item notify-item">
+                            <i class="mdi mdi-logout-variant"></i><span>Logout</span>
                         </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-settings-outline"></i>
-                            <span>Settings</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-lock-outline"></i>
-                            <span>Lock Screen</span>
-                        </a>
-
-                        <div class="dropdown-divider"></div>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-logout-variant"></i>
-                            <span>Logout</span>
-                        </a>
-
                     </div>
                 </li>
-
-                <li class="dropdown notification-list">
-                    <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect">
-                        <i class="mdi mdi-settings-outline noti-icon"></i>
-                    </a>
-                </li>
-
-
             </ul>
 
-            <!-- LOGO -->
             <div class="logo-box">
                 <a href="index.html" class="logo text-center logo-dark">
                     <span class="logo-lg">
                         <img src="~/images/logo-dark.png" alt height="18">
-                        <!-- <span class="logo-lg-text-dark">Velonic</span> -->
                     </span>
                     <span class="logo-sm">
-                        <!-- <span class="logo-lg-text-dark">V</span> -->
                         <img src="~/images/logo-sm.png" alt height="22">
                     </span>
                 </a>
@@ -294,17 +215,12 @@
                 <a href="index.html" class="logo text-center logo-light">
                     <span class="logo-lg">
                         <img src="~/images/logo-light.png" alt height="18">
-                        <!-- <span class="logo-lg-text-dark">Velonic</span> -->
                     </span>
                     <span class="logo-sm">
-                        <!-- <span class="logo-lg-text-dark">V</span> -->
                         <img src="~/images/logo-sm.png" alt height="22">
                     </span>
                 </a>
             </div>
-
-            <!-- LOGO -->
-
 
             <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
                 <li>
@@ -329,17 +245,13 @@
                 </li>
             </ul>
         </div>
-        <!-- end Topbar --> <!-- ========== Left Sidebar Start ========== -->
+
         <div class="left-side-menu">
 
             <div class="slimscroll-menu">
-
-                <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <ul class="metismenu" id="side-menu">
-
                         <li class="menu-title">Navigation</li>
-
                         <li>
                             <a href="javascript:void(0);" class="waves-effect">
                                 <i class="ion-md-speedometer"></i>
@@ -355,7 +267,7 @@
                         </li>
 
                         <li>
-                            <a href="javascript:void(0);" class="waves-effect">
+                            <a href="javascript:void(0);" class="waves-effect" aria-expanded="true">
                                 <i class="ion-ios-apps"></i>
                                 <span>Clients Area</span>
                                 <span class="menu-arrow"></span>
@@ -364,7 +276,7 @@
                                 <li><a asp-controller="Client" asp-action="AllClient">All Clients</a></li>
                                 <li><a href="components-grid.html">New Registration<span class="badge badge-danger badge-pill float-right"> 8 </span></a></li>
                                 <li><a href="components-portlets.html">Add Client</a></li>
-                                <li><a href="components-widgets.html">Assign Assessment</a></li>
+                                <li><a asp-controller="Common" asp-action="InviteClient">Assign Assessment</a></li>
                             </ul>
                         </li>
 
@@ -376,29 +288,20 @@
                         </li>
                     </ul>
                 </div>
-                <!-- End Sidebar -->
                 <div class="clearfix"></div>
             </div>
-            <!-- Sidebar -left -->
         </div>
 
         @RenderBody();
 
     </div>
-    <!-- END wrapper -->
-    <!-- Vendor js -->
     <script src="~/js/vendor.min.js"></script>
-
     <script src="~/js/moment.min.js"></script>
     <script src="~/js/jquery.scrollTo.min.js"></script>
     <script src="~/js/sweetalert2.min.js"></script>
-
-    <!-- Required datatable js -->
     <script src="~/js/datatables-jquery.dataTables.min.js"></script>
     <script src="~/js/datatables-dataTables.bootstrap4.min.js"></script>
-
     <script src="~/js/pages-datatables.init.js"></script>
-
     <script src="~/js/datatables-dataTables.buttons.min.js"></script>
     <script src="~/js/datatables-buttons.bootstrap4.min.js"></script>
     <script src="~/js/jszip-jszip.min.js"></script>
@@ -406,32 +309,18 @@
     <script src="~/js/pdfmake-vfs_fonts.js"></script>
     <script src="~/js/datatables-buttons.html5.min.js"></script>
     <script src="~/js/datatables-buttons.print.min.js"></script>
-
-    <!-- Chat app -->
     <script src="~/js/jquery.chat.js"></script>
-
-    <!-- Todo app -->
     <script src="~/js/jquery.todo.js"></script>
-
-    <!--Morris Chart-->
     <script src="~/js/morris.min.js"></script>
     <script src="~/js/raphael.min.js"></script>
-
-    <!-- Sparkline charts -->
     <script src="~/js/jquery.sparkline.min.js"></script>
-
-    <!-- Dashboard init JS -->
     <script src="~/js/dashboard.init.js"></script>
-
-    <!-- App js -->
     <script src="~/js/app.min.js"></script>
     <script>
-
         $(document).ready(function () {
             $('#country').on('change', function () {
                 $('#state option').remove();
-                var CountryId = $('#country option:selected').val();    /* var CountryId = $(this).val(); */
-                //alert(CountryId);
+                var CountryId = $('#country option:selected').val();
                 if (CountryId != -1) {
                     $.ajax({
                         type: 'GET',
@@ -448,11 +337,8 @@
                     });
                 }
             });
-
-
             $('#state').on('change', function () {
                 $('#city option').remove();
-                /* var CountryId = $(this).val(); */
                 var StateId = $('#state option:selected').val();
                 if (StateId != -1) {
                     $.ajax({
@@ -472,8 +358,6 @@
             });
         });
 
-
-        /// For viewing documnet
         $(document).ready(function () {
             $('a.file').click(function () {
                 var id = $("a.file").attr("name");
@@ -489,7 +373,6 @@
                 });
             });
         });
-
         /// Password Reset
         $(document).ready(function () {
             $(document).on('submit', '#onSubmit', function (e) {
@@ -518,6 +401,29 @@
                 });
             });
         });
+        // delete
+        $(document).ready(function () {
+            $('a.docId').click(function () {
+                var id = $("a.docId").attr("name");
+                var name = $("a.docId").attr("name");
+                var fId = event.srcElement.id;
+                alert(fId);
+                $.ajax({
+                    type: 'GET',
+                    url: '/Common/DeleteFile?docId=' + fId,
+                    data: {},
+                    success: function (result) {
+                        if (result) {
+                            return location.reload();
+                        }
+                        else {
+                            return alert("Failed to remove file");
+                        }
+                    }
+                });
+            });
+        });
     </script>
+    @RenderSection("scriptts", required: false);
 </body>
 </html>

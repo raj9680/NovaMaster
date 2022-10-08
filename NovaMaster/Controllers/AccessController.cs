@@ -1,5 +1,6 @@
 ﻿using Imm.BLL;
 using Imm.DAL.Data.Table;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NovaMaster.Models;
@@ -94,12 +95,21 @@ namespace NovaMaster.Controllers
             if(token["token"] != null && token["role"] != null && token["role"] == "agent")
             {
                 HttpContext.Session.SetString("Token", token["token"]);
+                HttpContext.Session.SetString("Role", token["role"]);
                 return RedirectToAction("IdentityView", "Identity");
             }
             if(token["token"] != null && token["role"] != null && token["role"] == "client")
             {
                 HttpContext.Session.SetString("Token", token["token"]);
-                return RedirectToAction("AddClient", "Client");
+                HttpContext.Session.SetString("Role", token["role"]);
+                return RedirectToAction("IdentityView", "Identity");
+            }
+            // For Admin
+            if (token["token"] != null && token["role"] != null && token["role"] == "admin")
+            {
+                HttpContext.Session.SetString("Token", token["token"]);
+                HttpContext.Session.SetString("Role", token["role"]);
+                return RedirectToAction("IdentityView", "Identity");
             }
             // ModelState.AddModelError("WrongCredentials", "Something wrong with user credentials.");
             return View(); // redirecting to view without any error.
@@ -146,6 +156,14 @@ namespace NovaMaster.Controllers
                 }
             }
             return "failed";
+        }
+
+
+        [Authorize]
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Remove("Token");
+            return RedirectToAction("Login");
         }
     }
 }

@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="content-page">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Invite New Clients</h4>
+                        <div class="page-title-right">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body table-responsive">
+                            <h4 class="m-t-0 header-title mb-4"><b>Invite URL</b></h4>
+                            <p id="uri"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    2015 - 2020 &copy; Velonic theme by <a href="vertical.html">Coderthemes</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        var idEle = document.getElementById("uri");
+        var url = document.location.hostname + "/Client/AddClient?uri=21&anonymous="+@ViewBag.Id+"&userId=236";
+        idEle.innerHTML = url;
+    </script>
+</div>

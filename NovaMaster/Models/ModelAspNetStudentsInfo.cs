@@ -87,7 +87,7 @@ namespace NovaMaster.Models
         public DateTime? JobEndDate { get; set; }
 
         // Background Information
-        public bool IsRefusedVisa { get; set; }
+        public bool? IsRefusedVisa { get; set; }
         public string ExplainIfRefused { get; set; }
         public string HaveStudyPermitVisa { get; set; }
     }

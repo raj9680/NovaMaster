@@ -1,0 +1,81 @@
+﻿<div id="aboutme" class="tab-pane active">
+    <h5 class="mt-4">Contact Information</h5>
+    <div class="row profile-desk">
+        <table class="col-sm-6 table table-condensed mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">Url</th>
+                    <td>
+                        <a href="#" class="ng-binding">
+                            https://url.com/url
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>
+                        <a href="vertical.html" class="ng-binding">
+                            @if (Model.Users != null)
+                            {
+                                @Model.Users.Email;
+                            }
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone</th>
+                    <td class="ng-binding">
+                        @if(Model.StudentsInfo != null && Model.StudentsInfo.ContactNumber != null)
+                        { @Model.StudentsInfo.ContactNumber; }
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">DOB</th>
+                    <td>
+                        <a href="#" class="ng-binding">
+                            @if (Model.StudentsInfo != null && Model.StudentsInfo.DOB != null)
+                            {@Model.StudentsInfo.DOB;
+                        }
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="col-sm-6 table table-condensed mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">Url</th>
+                    <td>
+                        <a href="#" class="ng-binding">
+                            https://url.com/url
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Address</th>
+                    <td>
+                        <a href="vertical.html" class="ng-binding">
+                            @if (Model.StudentsInfo != null && Model.StudentsInfo.AddressLine1 != null)
+                            {@Model.StudentsInfo.AddressLine1;}
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Pin Code</th>
+                    <td class="ng-binding">
+                        @if (Model.StudentsInfo != null && Model.StudentsInfo.Zip > 0)
+                        {@Model.StudentsInfo.Zip;}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Account Status</th>
+                    <td>
+                        @if (Model.Users.IsActive == true)
+                        { <a href="javascript:void(0)" class="ng-binding"> Verified </a> }
+                        else { <a href="javascript:void(0)" class="ng-binding"> Not Verified </a> }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
