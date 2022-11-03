@@ -5827,11 +5827,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj",
+      "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj",
       "projectName": "JWT.Auth",
-      "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj",
+      "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj",
       "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\obj\\",
+      "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5848,8 +5848,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj": {
-              "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj"
+            "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj": {
+              "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj"
             }
           }
         }

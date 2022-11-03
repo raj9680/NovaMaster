@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\NovaMaster\\NovaMaster.csproj": {}
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\NovaMaster\\NovaMaster.csproj": {}
   },
   "projects": {
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj": {
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj",
+        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj",
         "projectName": "EmailVerification",
-        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj",
+        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj",
         "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\obj\\",
+        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -58,14 +58,14 @@
         }
       }
     },
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.BLL\\Imm.BLL.csproj": {
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.BLL\\Imm.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.BLL\\Imm.BLL.csproj",
+        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.BLL\\Imm.BLL.csproj",
         "projectName": "Imm.BLL",
-        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.BLL\\Imm.BLL.csproj",
+        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.BLL\\Imm.BLL.csproj",
         "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.BLL\\obj\\",
+        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.BLL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -82,8 +82,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj": {
-                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj"
+              "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj": {
+                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj"
               }
             }
           }
@@ -130,14 +130,14 @@
         }
       }
     },
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj": {
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj",
         "projectName": "Imm.DAL",
-        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj",
+        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj",
         "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\obj\\",
+        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -202,14 +202,14 @@
         }
       }
     },
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj": {
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj",
+        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj",
         "projectName": "JWT.Auth",
-        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj",
+        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj",
         "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\obj\\",
+        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -226,8 +226,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj": {
-                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj"
+              "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj": {
+                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj"
               }
             }
           }
@@ -260,14 +260,14 @@
         }
       }
     },
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\NovaMaster\\NovaMaster.csproj": {
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\NovaMaster\\NovaMaster.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\NovaMaster\\NovaMaster.csproj",
+        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\NovaMaster\\NovaMaster.csproj",
         "projectName": "NovaMaster",
-        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\NovaMaster\\NovaMaster.csproj",
+        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\NovaMaster\\NovaMaster.csproj",
         "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\NovaMaster\\obj\\",
+        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\NovaMaster\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -284,14 +284,14 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj": {
-                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj"
+              "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj": {
+                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj"
               },
-              "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.BLL\\Imm.BLL.csproj": {
-                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.BLL\\Imm.BLL.csproj"
+              "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.BLL\\Imm.BLL.csproj": {
+                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.BLL\\Imm.BLL.csproj"
               },
-              "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj": {
-                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\JwtAuthentication\\JWT.Auth.csproj"
+              "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj": {
+                "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\JwtAuthentication\\JWT.Auth.csproj"
               }
             }
           }

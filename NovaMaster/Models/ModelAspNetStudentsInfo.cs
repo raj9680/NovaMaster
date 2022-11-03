@@ -19,6 +19,7 @@ namespace NovaMaster.Models
 
         [MaxLength(ErrorMessage = "Address Line 2 field Should not exceed 60 words")]
         public string AddressLine2 { get; set; }
+        public int CityId { get; set; }
 
         [Required(ErrorMessage = "Pin code is mandatory")]
         public int Zip { get; set; }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj": {}
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj": {}
   },
   "projects": {
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj": {
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj",
+        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj",
         "projectName": "EmailVerification",
-        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\EmailVerification.csproj",
+        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\EmailVerification.csproj",
         "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\EmailVerification\\obj\\",
+        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\EmailVerification\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj": {}
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj": {
+    "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj",
         "projectName": "Imm.DAL",
-        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\Imm.DAL.csproj",
+        "projectPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\Imm.DAL.csproj",
         "packagesPath": "C:\\Users\\raj.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\Immigration\\ImmigrationMaster\\Imm.DAL\\obj\\",
+        "outputPath": "C:\\Users\\raj.kumar\\Desktop\\NovaProject\\NovaMaster\\Imm.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\raj.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",

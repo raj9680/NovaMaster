@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "agent")
+    {
+        Layout = "_Layout";
+    }
+    else if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "client")
+    {
+        Layout = "_LayoutClient";
+    }
+    else if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "admin")
+    {
+        Layout = "_Layout";
+    }
+}
+<div class="content-page">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row mt-4">
+                <div class="col-sm-12">
+                    <div class="card p-0">
+                        <div class="card-body p-0">
+                            <div class="tab-content m-0 p-4">
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "admin")
+                                {
+                                    <partial name="Partial/_AgentInfos" />
+                                }
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "agent")
+                                {
+                                    <partial name="Partial/_ClientInfos" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    2015 - 2020 &copy; Velonic theme by <a href="vertical.html">Coderthemes</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

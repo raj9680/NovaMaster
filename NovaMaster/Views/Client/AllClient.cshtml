@@ -1,6 +1,8 @@
 ﻿@{
     Layout = "_Layout";
 }
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <div class="content-page">
     <div class="content">
@@ -21,7 +23,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -38,24 +39,48 @@
                                         <th>DOJ</th>
                                         <th>Email Status</th>
                                         <th>Action</th>
+                                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "admin")
+                                        {
+                                            <th>More</th>
+                                        }
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @for (int i = 0; i < ViewBag.ClientInfo[0].Count; i++)
                                     {
-                                        <tr>
-                                            <td>@ViewBag.ClientInfo[1][i]["FullName"]</td>
-                                            <td>@ViewBag.ClientInfo[1][i]["Email"]</td>
-                                            <td>@ViewBag.ClientInfo[0][i]["ContactNumber"]</td>
-                                            @*<td>@ViewBag.ClientInfo[0][i]["DOB"]</td>*@
-                                            <td>@ViewBag.ClientInfo[2][i]["DOJ"]</td>
-                                            @if (ViewBag.ClientInfo[1][i]["CnfEmail"] == true)
-                                            { <td>Confirmed</td> }
-                                            else { <td>Not Confirmed</td> }
+                                    <tr>
+                                        <td>@ViewBag.ClientInfo[1][i]["FullName"]</td>
+                                        <td>@ViewBag.ClientInfo[1][i]["Email"]</td>
+                                        <td>@ViewBag.ClientInfo[0][i]["ContactNumber"]</td>
+                                        @*<td>@ViewBag.ClientInfo[0][i]["DOB"]</td>*@
+                                        <td>@ViewBag.ClientInfo[2][i]["DOJ"]</td>
+                                        @if (ViewBag.ClientInfo[1][i]["CnfEmail"] == true)
+                                        {
+                                            <td>Confirmed</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Not Confirmed</td>
+                                        }
+                                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "admin")
+                                        {
                                             <td>
-                                            <a href="@ViewBag.ClientInfo[0][i]["UserId"]" class="text-primary">View</a>
+                                                <a asp-controller="Client" asp-action="ViewClientt" asp-route-id="@ViewBag.ClientInfo[0][i]["UserId"]" class="text-primary">View</a>
                                             </td>
-                                        </tr>
+                                        }
+                                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "agent")
+                                        {
+                                            <td>
+                                                <a asp-controller="Client" asp-action="ViewClient" asp-route-id="@ViewBag.ClientInfo[0][i]["UserId"]" class="text-primary">View</a>
+                                            </td>
+                                        }
+                                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "admin")
+                                        {
+                                            <td>
+                                                <a asp-controller="Client" asp-action="AllClientAgents" asp-route-id="@ViewBag.ClientInfo[0][i]["UserId"]" class="text-primary">View Clients</a>
+                                            </td>
+                                        }
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -64,7 +89,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <!-- end content -->
     <!-- Footer Start -->

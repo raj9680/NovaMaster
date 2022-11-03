@@ -5,11 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using NovaMaster.Models;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NovaMaster.Controllers
@@ -61,7 +59,7 @@ namespace NovaMaster.Controllers
         }
 
         [HttpPost]
-        public async Task<string> MultipleFileUpload(ModelAspNetusersDocs model, string email)
+        public async Task<string> MultipleFileUpload(ModelAspNetusersDocs model, string email) // async imp.
         {
            var result = new List<string>();
            try
@@ -100,6 +98,7 @@ namespace NovaMaster.Controllers
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPassword model)
         {
@@ -134,6 +133,12 @@ namespace NovaMaster.Controllers
         public List<AgentStudentViewModel> ClientAgent(string email)
         {
             return _serviceCommon.ClientAgentViewAsync(email);
+        }
+
+        [Authorize(Roles = "admin")]
+        public List<AgentStudentViewModel> Clients(int id)
+        {
+            return _serviceCommon.ClientsAsync(id);
         }
 
 

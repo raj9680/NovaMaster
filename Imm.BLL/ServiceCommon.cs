@@ -63,6 +63,7 @@ namespace Imm.BLL
                 }).FirstOrDefault();
         }
 
+
         public List<string> MultipleFileUploadAsync(AspNetUsersDocs _file, string rootPath, string email)
         {
             var uId = _context.AspNetUsers.Where(x => x.Email == email).Select(o => o.UserId).FirstOrDefault();
@@ -159,16 +160,83 @@ namespace Imm.BLL
             }
         }
 
+
+        public string Role(int id)
+        {
+            if (id < 0 || id == 0)
+                return null;
+            var role = _context.AspNetRoles.Find(id).Role;
+            return role.ToString();
+        }
+
+
         public List<AgentStudentViewModel> ClientAgentViewAsync(string email)
         {
             if (email == null)
                 return null;
             int userId = _context.AspNetUsers.Where(x => x.Email == email).Select(o => o.UserId).FirstOrDefault();
             List<AgentStudentViewModel> res = new List<AgentStudentViewModel>();
+            string role = Role(userId);
+            if (role.Contains("admin"))
+            {
+                var q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetUsersInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.AgentId == userId
+                         select new { um.DOJ, si.ContactNumber, si.DOB, si.UserId, u.FullName, u.Email, u.CnfEmail }
+                        ).ToList();
+
+                foreach (var item in q)
+                {
+                    AgentStudentViewModel data = new AgentStudentViewModel()
+                    {
+                        UserId = item.UserId,
+                        ContactNumber = item.ContactNumber,
+                        FullName = item.FullName,
+                        Email = item.Email,
+                        DOB = item.DOB,
+                        //DOJ = item.DOJ,
+                        Confirmed = item.CnfEmail
+                    };
+                    res.Add(data);
+                }
+            }
+            else // all roles other than admin
+            {
+                var q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.AgentId == userId
+                         select new { um.DOJ, si.ContactNumber, si.DOB, si.UserId, u.FullName, u.Email, u.CnfEmail }
+                        ).ToList();
+
+                foreach (var item in q)
+                {
+                    AgentStudentViewModel data = new AgentStudentViewModel()
+                    {
+                        UserId = item.UserId,
+                        ContactNumber = item.ContactNumber,
+                        FullName = item.FullName,
+                        Email = item.Email,
+                        DOB = item.DOB,
+                        DOJ = item.DOJ,
+                        Confirmed = item.CnfEmail
+                    };
+                    res.Add(data);
+                }
+            }
+            return res;
+        }
+
+        public List<AgentStudentViewModel> ClientsAsync(int id)
+        {
+            if (id == 0 || id < 0)
+                return null;
+            List<AgentStudentViewModel> res = new List<AgentStudentViewModel>();
             var q = (from um in _context.AspNetUsersManager
                      join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
                      join u in _context.AspNetUsers on si.UserId equals u.UserId
-                     where um.AgentId == userId
+                     where um.AgentId == id
                      select new { um.DOJ, si.ContactNumber, si.DOB, si.UserId, u.FullName, u.Email, u.CnfEmail }
                         ).ToList();
 
@@ -199,8 +267,7 @@ namespace Imm.BLL
                     DocId = docId,
                     DocumentName = docName
                 };
-                var id = _context.AspNetUserDocs.AsNoTracking().Where(x => x.DocId == Id.DocId).Select(o => new { o.DocId, o.Type })
-                .FirstOrDefault();
+                var id = _context.AspNetUserDocs.AsNoTracking().Where(x => x.DocId == Id.DocId).Select(o => new { o.DocId, o.Type }).FirstOrDefault();
                 if (id.DocId > 0)
                 {
                     if (File.Exists(_rootPath+"/images/img/" + Id.UserId + "_" + id.Type + "_" + Id.DocumentName))

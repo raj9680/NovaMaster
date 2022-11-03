@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Imm.DAL.Data.Table
 {
@@ -13,5 +12,13 @@ namespace Imm.DAL.Data.Table
         public DateTime? DOB { get; set; }
         public DateTime? DOJ { get; set; }
         public bool Confirmed { get; set; }
+    }
+
+    public class InformationViewModel
+    {
+        public AspNetUsers AspUsersModel { get; set; }
+        public AspNetStudentsInfo AspStudentsInfoModel { get; set; }
+        public AspNetUsersInfo AspUsersInfoModel { get; set; }
+        public List<AspNetUsersDocs> AspUserDocsModel { get; set; }
     }
 }

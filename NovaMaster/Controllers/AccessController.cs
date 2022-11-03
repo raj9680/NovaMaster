@@ -71,8 +71,9 @@ namespace NovaMaster.Controllers
             return View();
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Login(ModelAspNetUsers user)
+        public IActionResult Login(ModelAspNetUsers user)
         {
             if (user.Password == null)
             {
@@ -86,36 +87,39 @@ namespace NovaMaster.Controllers
                 Email = user.Email,
                 Password = user.Password
             };
+
             IDictionary<string,string> token = _serviceAccess.LoginAsync(users);
             if (token == null)
             {
                 ModelState.AddModelError("WrongCredentials", "Something wrong with user credentials.");
                 return View();
             }
+            
             if(token["token"] != null && token["role"] != null && token["role"] == "agent")
             {
                 HttpContext.Session.SetString("Token", token["token"]);
                 HttpContext.Session.SetString("Role", token["role"]);
-                return RedirectToAction("IdentityView", "Identity");
+                return RedirectToAction("AgentDashboard", "Dashboard");
             }
+            
             if(token["token"] != null && token["role"] != null && token["role"] == "client")
             {
                 HttpContext.Session.SetString("Token", token["token"]);
                 HttpContext.Session.SetString("Role", token["role"]);
-                return RedirectToAction("IdentityView", "Identity");
+                return RedirectToAction("ClientDashboard", "Dashboard");
             }
-            // For Admin
+            
             if (token["token"] != null && token["role"] != null && token["role"] == "admin")
             {
                 HttpContext.Session.SetString("Token", token["token"]);
                 HttpContext.Session.SetString("Role", token["role"]);
-                return RedirectToAction("IdentityView", "Identity");
+                return RedirectToAction("AdminDashboard", "Dashboard");
             }
-            // ModelState.AddModelError("WrongCredentials", "Something wrong with user credentials.");
-            return View(); // redirecting to view without any error.
+            return View();
         }
 
-        public IActionResult ChangePassword(bool send = false, bool NotExist = false, bool Failed = false) // from public View - rm_async
+
+        public IActionResult ChangePassword(bool send = false, bool NotExist = false, bool Failed = false)
         {
             ViewBag.IsSent = send;
             ViewBag.NotExist = NotExist;
@@ -123,8 +127,9 @@ namespace NovaMaster.Controllers
             return View();
         }
 
+
         [HttpPost]
-        public IActionResult changePasswordAction(string email) // from public View - rm_async
+        public IActionResult changePasswordAction(string email)
         {
             if (email != null)
             {
@@ -141,6 +146,7 @@ namespace NovaMaster.Controllers
             }
             return RedirectToAction("ChangePassword", new { NotExist = true });
         }
+
 
         [HttpPost]
         public async Task<string> ChangePassword(string pass)

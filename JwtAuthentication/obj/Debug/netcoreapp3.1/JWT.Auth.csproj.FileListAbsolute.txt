@@ -11,3 +11,16 @@ C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\JwtAuthentication\obj\D
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.csproj.CopyComplete
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.dll
 C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.pdb
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\bin\Debug\netcoreapp3.1\JWT.Auth.deps.json
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\bin\Debug\netcoreapp3.1\JWT.Auth.dll
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\bin\Debug\netcoreapp3.1\JWT.Auth.pdb
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\bin\Debug\netcoreapp3.1\Imm.DAL.dll
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\bin\Debug\netcoreapp3.1\Imm.DAL.pdb
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.csproj.AssemblyReference.cache
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.AssemblyInfoInputs.cache
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.AssemblyInfo.cs
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.csproj.CoreCompileInputs.cache
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.csproj.CopyComplete
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.dll
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\JwtAuthentication\obj\Debug\netcoreapp3.1\JWT.Auth.pdb

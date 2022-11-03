@@ -1,0 +1,281 @@
+﻿<div id="aboutme" class="tab-pane active">
+    <h5 class="mt-4">Agent Information</h5>
+    <div class="row profile-desk">
+        <table class="col-sm-6 table table-condensed mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">Full Name</th>
+                    <td>
+                        <a href="#" class="ng-binding">
+                            @ViewBag.ClientInfo[0]["FullName"]
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>
+                        <a href="vertical.html" class="ng-binding">
+                            @ViewBag.ClientInfo[0]["Email"]
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Contact Number</th>
+                    <td class="ng-binding">
+                        @ViewBag.ClientInfo[1]["ContactNumber"]
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">DOB</th>
+                    <td>
+                        <a href="#" class="ng-binding">
+                            @ViewBag.ClientInfo[1]["DOB"]
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="col-sm-6 table table-condensed mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">Address 1</th>
+                    <td>
+                        <a href="#" class="ng-binding">
+                            @ViewBag.ClientInfo[1]["AddressLine1"]
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Address 2</th>
+                    <td>
+                        <a href="vertical.html" class="ng-binding">
+                            @ViewBag.ClientInfo[1]["AddressLine2"]
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">City</th>
+                    <td class="ng-binding">
+                        @ViewBag.ClientInfo[1]["CityId"]
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Zip</th>
+                    <td>
+                        @ViewBag.ClientInfo[1]["Zip"]
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @*  *@
+    @if (ViewBag.IsAdmin == false)
+    {
+        <h5 class="mt-4">Skill Information</h5>
+        <div class="row profile-desk">
+            <table class="col-sm-6 table table-condensed mb-0">
+                <tbody>
+                    <tr>
+                        <th scope="row">Primary Language</th>
+                        <td>
+                            <a href="#" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["PrimaryLanguage"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">English Exam Type</th>
+                        <td>
+                            <a href="vertical.html" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["EnglishExamType"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Intake Applied</th>
+                        <td class="ng-binding">
+                            @ViewBag.ClientInfo[1]["Intake"]
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="col-sm-6 table table-condensed mb-0">
+                <tbody>
+                    <tr>
+                        <th scope="row">Intake year</th>
+                        <td>
+                            <a href="#" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["IntakeYear"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Program Applied</th>
+                        <td>
+                            <a href="#" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["Program"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Program choices</th>
+                        <td>
+                            <a href="vertical.html" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["ProgramCollegePreference"]
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @*  *@
+        <h5 class="mt-4">Education Details</h5>
+        <div class="row profile-desk">
+            <table class="col-sm-6 table table-condensed mb-0">
+                <tbody>
+                    <tr>
+                        <th scope="row">Matric Start Date</th>
+                        <td>
+                            <a href="#" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["MatricEducationStartDate"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Matric End Date</th>
+                        <td>
+                            <a href="vertical.html" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["MatricEducationEndDate"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Matric Completion Year</th>
+                        <td class="ng-binding">
+                            @ViewBag.ClientInfo[1]["MatricEducationCompletionDate"]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Institute Information</th>
+                        <td>
+                            <a href="#" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["MatricInstituteInfo"]
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="col-sm-6 table table-condensed mb-0">
+                <tbody>
+                    <tr>
+                        <th scope="row">Percentage</th>
+                        <td>
+                            <a href="#" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["MatricEducationPercentage"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Maths Marks</th>
+                        <td>
+                            <a href="vertical.html" class="ng-binding">
+                                @ViewBag.ClientInfo[1]["MatricEducationMathsmarks"]
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">English Marks</th>
+                        <td class="ng-binding">
+                            @ViewBag.ClientInfo[1]["MatricEducationEnglishMarks"]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @*  *@
+        <h5 class="mt-4">Document Details</h5>
+        <div class="row profile-desk">
+            <table class="col-sm-6 table table-condensed mb-0">
+                <tbody>
+                    @if (ViewBag.ClientInfo[2].Count > 0)
+                    {
+                        for (int i = 0; i < ViewBag.ClientInfo[2].Count; i++)
+                        {
+                            if (ViewBag.ClientInfo[2][i]["Type"] == "passport")
+                            {
+                                <tr>
+                                    <th scope="row">Passport</th>
+                                    <td>
+                                        <a href="@ViewBag.ClientInfo[2][i][" DocumentURL"]" class="ng-binding">
+                                            @ViewBag.ClientInfo[2][i]["DocumentName"]
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            if (ViewBag.ClientInfo[2][i]["Type"] == "exam")
+                            {
+                                <tr>
+                                    <th scope="row">Exam Type</th>
+                                    <td>
+                                        <a href="@ViewBag.ClientInfo[2][i][" DocumentURL"]" class="ng-binding">
+                                            @ViewBag.ClientInfo[2][i]["DocumentName"]
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            if (ViewBag.ClientInfo[2][i]["Type"] == "matriculation")
+                            {
+                                <tr>
+                                    <th scope="row">Matriculation</th>
+                                    <td>
+                                        <a href="@ViewBag.ClientInfo[2][i][" DocumentURL"]" class="ng-binding">
+                                            @ViewBag.ClientInfo[2][i]["DocumentName"]
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            if (ViewBag.ClientInfo[2][i]["Type"] == "secondary")
+                            {
+                                <tr>
+                                    <th scope="row">Secondary</th>
+                                    <td>
+                                        <a href="@ViewBag.ClientInfo[2][i][" DocumentURL"]" class="ng-binding">
+                                            @ViewBag.ClientInfo[2][i]["DocumentName"]
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            if (ViewBag.ClientInfo[2][i]["Type"] == "bachelors")
+                            {
+                                <tr>
+                                    <th scope="row">Bachelors</th>
+                                    <td>
+                                        <a href="@ViewBag.ClientInfo[2][i][" DocumentURL"]" class="ng-binding">
+                                            @ViewBag.ClientInfo[2][i]["DocumentName"]
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            if (ViewBag.ClientInfo[2][i]["Type"] == "experience")
+                            {
+                                <tr>
+                                    <th scope="row">Job Experience Letter</th>
+                                    <td>
+                                        <a href="@ViewBag.ClientInfo[2][i][" DocumentURL"]" class="ng-binding">
+                                            @ViewBag.ClientInfo[2][i]["DocumentName"]
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

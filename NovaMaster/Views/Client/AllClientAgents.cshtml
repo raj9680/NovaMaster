@@ -1,0 +1,86 @@
+﻿@{
+    Layout = "_Layout";
+}
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<div class="content-page">
+    <div class="content">
+        <!-- Start Content-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Data Table</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb p-0 m-0">
+                                <li class="breadcrumb-item"><a href="#">Velonic</a></li>
+                                <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                                <li class="breadcrumb-item active">Data Table</li>
+                            </ol>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body table-responsive">
+                            <h4 class="m-t-0 header-title mb-4"><b>All Clients</b></h4>
+
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th>DOJ</th>
+                                        <th>Email Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < ViewBag.ClientInfo[0].Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@ViewBag.ClientInfo[1][i]["FullName"]</td>
+                                            <td>@ViewBag.ClientInfo[1][i]["Email"]</td>
+                                            <td>@ViewBag.ClientInfo[0][i]["ContactNumber"]</td>
+                                            <td>@ViewBag.ClientInfo[2][i]["DOJ"]</td>
+                                            @if (ViewBag.ClientInfo[1][i]["CnfEmail"] == true)
+                                            {
+                                                <td>Confirmed</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Not Confirmed</td>
+                                            }
+                                            <td>
+                                                <a asp-controller="Client" asp-action="ViewClient" asp-route-id="@ViewBag.ClientInfo[0][i]["UserId"]" class="text-primary">View</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end content -->
+    <!-- Footer Start -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    2015 - 2020 &copy; Velonic theme by <a href="vertical.html">Coderthemes</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end Footer -->
+
+</div>

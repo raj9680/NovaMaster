@@ -90,7 +90,13 @@ namespace Imm.BLL
                     userr.About = model2.About;
                     userr.PinCode = model2.PinCode;
 
+                    var userManager = new AspNetUsersManager();
+                    userManager.StudentId = userr.UserId;
+                    userManager.AgentId = 1;
+
                     _context.AspNetUsersInfo.Add(userr);
+                    _context.AspNetUsersManager.Add(userManager);
+
                     await _context.SaveChangesAsync();
                 }
 

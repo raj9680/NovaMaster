@@ -22,7 +22,7 @@ namespace Imm.BLL
             _logger = logger;
         }
 
-        public async Task<AspNetStudentsInfo> ClientViewInfoAsync(string email)
+        public AspNetStudentsInfo ClientViewInfoAsync(string email)
         {
             var res = _context.AspNetUsers.Where(o => o.Email == email).FirstOrDefault();
             if (res == null)
@@ -237,6 +237,133 @@ namespace Imm.BLL
             }
             _logger.LogError("Something error in ServiceClient/Document not uploaded");
             return null;
+        }
+
+        // return single client Info
+        public InformationViewModel ViewClientAsync(int id)
+        {
+            if(id < 0 || id == 0)
+                return null;
+            var role = _context.AspNetRoles.Find(id).Role;
+            if (role.Equals("client"))
+                return ClientOnly(id);
+            return AgentOnly(id);
+        }
+
+        public InformationViewModel ClientOnly(int id)
+        {
+            if (id == 0)
+                return null;
+            var q = (from u in _context.AspNetUsers
+                     join si in _context.AspNetStudentsInfo on u.UserId equals si.UserId
+                     where u.UserId == id
+                     select new { u, si });
+            var doc = _context.AspNetUserDocs.Where(x => x.UserId == id).ToList();
+            InformationViewModel fin = new InformationViewModel();
+            foreach (var item in q)
+            {
+                AspNetUsers user = new AspNetUsers()
+                {
+                    FullName = item.u.FullName,
+                    Email = item.u.Email
+                };
+
+                AspNetStudentsInfo userInfo = new AspNetStudentsInfo()
+                {
+                    ContactNumber = item.si.ContactNumber,
+                    DOB = item.si.DOB,
+                    AddressLine1 = item.si.AddressLine1,
+                    AddressLine2 = item.si.AddressLine2,
+                    CityId = item.si.CityId,
+                    Zip = item.si.Zip,
+                    Reference = item.si.Reference,
+                    PrimaryLanguage = item.si.PrimaryLanguage,
+                    EnglishExamType = item.si.EnglishExamType,
+                    Intake = item.si.Intake,
+                    IntakeYear = item.si.IntakeYear,
+                    Program = item.si.Program,
+                    ProgramCollegePreference = item.si.ProgramCollegePreference,
+                    HighestEducation = item.si.HighestEducation,
+                    MastersEducationStartDate = item.si.MastersEducationStartDate,
+                    MastersEducationEndDate = item.si.MastersEducationEndDate,
+                    MastersEducationCompletionDate = item.si.MastersEducationCompletionDate,
+                    MastersInstituteInfo = item.si.MastersInstituteInfo,
+                    MastersEducationPercentage = item.si.MastersEducationPercentage,
+                    MastersEducationMathsmarks = item.si.MastersEducationMathsmarks,
+                    MastersEducationEnglishMarks = item.si.MastersEducationEnglishMarks,
+                    BachelorsEducationStartDate = item.si.BachelorsEducationStartDate,
+                    BachelorsEducationEndDate = item.si.BachelorsEducationEndDate,
+                    BachelorsEducationCompletionDate = item.si.BachelorsEducationCompletionDate,
+                    BachelorsInstituteInfo = item.si.BachelorsInstituteInfo,
+                    BachelorsEducationPercentage = item.si.BachelorsEducationPercentage,
+                    BachelorsEducationEnglishMarks = item.si.BachelorsEducationEnglishMarks,
+                    BachelorsEducationMathsmarks = item.si.BachelorsEducationMathsmarks,
+                    SecondaryEducationStartDate = item.si.SecondaryEducationStartDate,
+                    SecondaryEducationEndDate = item.si.SecondaryEducationEndDate,
+                    SecondaryEducationCompletionDate = item.si.SecondaryEducationCompletionDate,
+                    SecondaryInstituteInfo = item.si.SecondaryInstituteInfo,
+                    SecondaryEducationPercentage = item.si.SecondaryEducationPercentage,
+                    SecondaryEducationMathsmarks = item.si.SecondaryEducationMathsmarks,
+                    SecondaryEducationEnglishMarks = item.si.SecondaryEducationEnglishMarks,
+                    MatricEducationStartDate = item.si.MatricEducationStartDate,
+                    MatricEducationEndDate = item.si.MatricEducationEndDate,
+                    MatricEducationCompletionDate = item.si.MatricEducationCompletionDate,
+                    MatricInstituteInfo = item.si.MatricInstituteInfo,
+                    MatricEducationPercentage = item.si.MatricEducationPercentage,
+                    MatricEducationMathsmarks = item.si.MatricEducationMathsmarks,
+                    MatricEducationEnglishMarks = item.si.MatricEducationEnglishMarks,
+                    CompanyName = item.si.CompanyName,
+                    JobTitle = item.si.JobTitle,
+                    JobStartDate = item.si.JobStartDate,
+                    JobEndDate = item.si.JobEndDate,
+                    IsRefusedVisa = item.si.IsRefusedVisa,
+                    ExplainIfRefused = item.si.ExplainIfRefused,
+                    HaveStudyPermitVisa = item.si.HaveStudyPermitVisa
+                };
+
+                fin.AspUsersModel = user;
+                fin.AspStudentsInfoModel = userInfo;
+                fin.AspUserDocsModel = doc;
+            }
+            return fin;
+        }
+
+        public InformationViewModel AgentOnly(int id)
+        {
+            if (id == 0)
+                return null;
+            var q = (from u in _context.AspNetUsers
+                     join ui in _context.AspNetUsersInfo on u.UserId equals ui.UserId
+                     where u.UserId == id
+                     select new { u, ui });
+            var doc = _context.AspNetUserDocs.Where(x => x.UserId == id).ToList();
+            InformationViewModel fin = new InformationViewModel();
+            foreach (var item in q)
+            {
+                AspNetUsers user = new AspNetUsers()
+                {
+                    FullName = item.u.FullName,
+                    Email = item.u.Email
+                };
+
+                AspNetUsersInfo userInfo = new AspNetUsersInfo()
+                {
+                    ContactNumber = item.ui.ContactNumber,
+                    Website = item.ui.Website,
+                    CompanyName = item.ui.CompanyName,
+                    StudentSource = item.ui.StudentSource,
+                    AddressLine1 = item.ui.AddressLine1,
+                    AddressLine2 = item.ui.AddressLine2,
+                    CityId = item.ui.CityId,
+                    PinCode = item.ui.PinCode,
+                    About = item.ui.PinCode
+                };
+
+                fin.AspUsersModel = user;
+                fin.AspUsersInfoModel = userInfo;
+                fin.AspUserDocsModel = doc;
+            }
+            return fin;
         }
     }
 }
