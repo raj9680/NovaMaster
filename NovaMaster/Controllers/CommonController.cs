@@ -148,5 +148,10 @@ namespace NovaMaster.Controllers
             var _rootPath = _hostingEnvironment.WebRootPath;
             return _serviceCommon.DeleteFileAsync(docId, docName, _rootPath);
         }
+
+        public bool IsUser(string email)
+        {
+            return _serviceCommon.Isuser(email);
+        }
     }
 }

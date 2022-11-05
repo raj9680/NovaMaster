@@ -22,6 +22,17 @@ namespace Imm.BLL
             _logger = logger;
         }
 
+        public bool Isuser(string email)
+        {
+            var uId = _context.AspNetUsers.Where(o => o.Email == email).Select(x => x.UserId).FirstOrDefault();
+            var IsUser = _context.AspNetUsersInfo.Where(o => o.UserId == uId).Select(x => x.UserId).FirstOrDefault();
+            if(IsUser>0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<List<Country>> GetCountryAsync()
         {
             return await _context.Country.Select(x => new Country()

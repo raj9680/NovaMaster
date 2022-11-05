@@ -269,32 +269,23 @@
                             }
                         </li>
 
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != "admin")
+                        {
                         <li>
                             <a asp-controller="Identity" asp-action="IdentityView" class="waves-effect">
-                                <i class="ion-md-basket"></i>
-                                <span> Profile </span>
+                                Profile
                             </a>
                         </li>
+                        }
+
+                        
+                        <li><a asp-controller="Client" asp-action="AllAgent">All Agents</a></li>
+                        <li><a asp-controller="Client" asp-action="AllClient">All Clients</a></li>
+                        <li><a href="components-grid.html">New Registration<span class="badge badge-danger badge-pill float-right"> 8 </span></a></li>
+                        <li><a asp-controller="Common" asp-action="InviteClient">Invite Client</a></li>
 
                         <li>
-                            <a href="javascript:void(0);" class="waves-effect" aria-expanded="true">
-                                <i class="ion-ios-apps"></i>
-                                <span>Clients Area</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul class="nav-second-level" aria-expanded="true">
-                                <li><a asp-controller="Client" asp-action="AllClient">All Clients</a></li>
-                                <li><a href="components-grid.html">New Registration<span class="badge badge-danger badge-pill float-right"> 8 </span></a></li>
-                                <li><a href="components-portlets.html">Add Client</a></li>
-                                <li><a asp-controller="Common" asp-action="InviteClient">Assign Assessment</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="/Identity/IdentityProfile" class="waves-effect">
-                                <i class="ion-md-basket"></i>
-                                <span>Notifications </span>
-                            </a>
+                            <a href="/Identity/IdentityProfile" class="waves-effect">Notifications</a>
                         </li>
                     </ul>
                 </div>

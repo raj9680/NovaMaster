@@ -57,7 +57,6 @@ namespace Imm.BLL
 
             try
             {
-                /// ASPNetUsersInfo
                 var user = await _context.AspNetUsersInfo.FindAsync(model2.UserId);
                 if (user != null)
                 {
@@ -90,12 +89,20 @@ namespace Imm.BLL
                     userr.About = model2.About;
                     userr.PinCode = model2.PinCode;
 
-                    var userManager = new AspNetUsersManager();
-                    userManager.StudentId = userr.UserId;
-                    userManager.AgentId = 1;
-
                     _context.AspNetUsersInfo.Add(userr);
-                    _context.AspNetUsersManager.Add(userManager);
+
+                    int IsManager = _context.AspNetUsersManager.Where(o => o.StudentId == userr.UserId).Select(x => x.StudentId).FirstOrDefault();
+                    if (IsManager == 0 || IsManager < 0)
+                    {
+                        var userManager = new AspNetUsersManager();
+                        userManager.StudentId = userr.UserId;
+                        userManager.AgentId = 1;
+                        _context.AspNetUsersManager.Add(userManager);
+                    }
+
+                    // Activate account
+                    AspNetUsers data = await _context.AspNetUsers.FindAsync(model1.UserId);
+                    data.IsActive = true;
 
                     await _context.SaveChangesAsync();
                 }
