@@ -271,17 +271,31 @@
 
                         @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != "admin")
                         {
-                        <li>
-                            <a asp-controller="Identity" asp-action="IdentityView" class="waves-effect">
-                                Profile
-                            </a>
-                        </li>
+                            <li>
+                                <a asp-controller="Identity" asp-action="IdentityView" class="waves-effect">
+                                    Profile
+                                </a>
+                            </li>
                         }
 
-                        
-                        <li><a asp-controller="Client" asp-action="AllAgent">All Agents</a></li>
-                        <li><a asp-controller="Client" asp-action="AllClient">All Clients</a></li>
-                        <li><a href="components-grid.html">New Registration<span class="badge badge-danger badge-pill float-right"> 8 </span></a></li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "admin")
+                        {
+                            <li><a asp-controller="Client" asp-action="MyClientt">My Clients</a></li>
+                        }
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "agent")
+                        {
+                            <li><a asp-controller="Client" asp-action="MyClient">My Clients</a></li>
+                        }
+
+
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "admin")
+                        {
+                            <li><a asp-controller="Client" asp-action="AllAgent">All Agents</a></li>
+                        }
+
+                        <li><a asp-controller="Client" asp-action="NewRegistration">New Registration<span class="badge badge-danger badge-pill float-right"> 8 </span></a></li>
                         <li><a asp-controller="Common" asp-action="InviteClient">Invite Client</a></li>
 
                         <li>

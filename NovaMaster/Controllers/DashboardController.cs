@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace NovaMaster.Controllers
@@ -11,12 +12,13 @@ namespace NovaMaster.Controllers
             _commonController = commonController;
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult AdminDashboard()
         {
             return View();
         }
 
-
+        [Authorize(Roles ="agent")]
         public IActionResult AgentDashboard()
         {
             ViewBag.IsUser = false;
@@ -34,7 +36,7 @@ namespace NovaMaster.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "client")]
         public IActionResult ClientDashboard()
         {
             return View();

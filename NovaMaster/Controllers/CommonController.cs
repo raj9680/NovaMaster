@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using NovaMaster.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NovaMaster.Controllers
@@ -129,10 +130,16 @@ namespace NovaMaster.Controllers
         }
 
 
-        [Authorize(Roles = "agent,admin")]
+        [Authorize(Roles = "admin")]
         public List<AgentStudentViewModel> ClientAgent(string email)
         {
             return _serviceCommon.ClientAgentViewAsync(email);
+        }
+
+        [Authorize(Roles = "agent,admin")]
+        public List<AgentStudentViewModel> AllClient(string email)
+        {
+            return _serviceCommon.AllClientViewAsync(email);
         }
 
         [Authorize(Roles = "admin")]
@@ -152,6 +159,11 @@ namespace NovaMaster.Controllers
         public bool IsUser(string email)
         {
             return _serviceCommon.Isuser(email);
+        }
+
+        public List<AgentStudentViewModel> NewRegistrationAsync(string email)
+        {
+            return _serviceCommon.NewRegistration(email);
         }
     }
 }

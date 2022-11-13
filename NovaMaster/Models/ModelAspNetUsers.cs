@@ -26,6 +26,7 @@ namespace NovaMaster.Models
         public string CnfPassword { get; set; }
         public bool CnfEmail { get; set; }
         public bool IsActive { get; set; }
+        public bool IsNewRegistration { get; set; }
     }
 
     public class ResetPassword

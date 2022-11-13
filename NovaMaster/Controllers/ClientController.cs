@@ -250,7 +250,6 @@ public class ClientController : Controller
 
 		};
 
-		// Documents setup
 		AspNetUsersDocs data3 = new AspNetUsersDocs();
 		string rootPath = _hostingEnvironment.WebRootPath;
 		if (model.ClientDocs != null)
@@ -263,27 +262,29 @@ public class ClientController : Controller
 			data3.Document.Add(model.ClientDocs.Matriculation);
 			data3.Document.Add(model.ClientDocs.WorkExperience);
 		}
-		//
-		var ExistingUser = User.FindFirst(ClaimTypes.Email)?.Value;
-		if (ExistingUser != null)
-		{
-			data1.Email = ExistingUser;
-		}
-		//
-		var res = await _serviceClient.CreateClientAsync(data1, data2, data3, rootPath, model.Users.AgentId);
+
+        var res = await _serviceClient.CreateClientAsync(data1, data2, data3, rootPath, model.Users.AgentId);
 		if (res < 0)
 		{
 			_logger.LogError("Email is already in use. Exception raised from ClientController.AddClient");
 			ModelState.AddModelError("ExistingEmail", "Email already exist.");
 			return View();
 		}
+
 		if (res == 0)
 		{
 			ViewBag.Failed = true;
 			return View();
 		}
-		ViewBag.IsSuccess = true;
-		return RedirectToAction("Login", "Access", ViewBag.IsSuccess);
+
+        var ExistingUser = User.FindFirst(ClaimTypes.Email)?.Value;
+        if (ExistingUser != null)
+        {
+            return RedirectToAction("AllAgent", "Client");
+        }
+
+		return RedirectToAction("Login", "Access", ViewBag.IsSuccess = true);
+
 	}
 
 	public IActionResult UpdateClient(_InformationModel model, bool IsSuccess = false)
@@ -533,8 +534,8 @@ public class ClientController : Controller
 		});
 	}
 
-	[Authorize(Roles = "agent,admin")]
-	public IActionResult AllClient()
+	[Authorize(Roles = "admin")]
+	public IActionResult AllAgent()
 	{
 		string email = User.FindFirst(ClaimTypes.Email)?.Value;
 		if (email == null) return View("error");
@@ -583,10 +584,109 @@ public class ClientController : Controller
 	}
 
 	[Authorize(Roles = "agent,admin")]
-	public IActionResult ViewClient(int id, bool IsAdmin=false)
+	public IActionResult MyClient()
+	{
+		string email = User.FindFirst(ClaimTypes.Email)?.Value;
+		if (email == null) return View("error");
+		var data = _commonController.AllClient(email);
+		List<AspNetStudentsInfo> si = new List<AspNetStudentsInfo>();
+		List<AspNetUsers> ui = new List<AspNetUsers>();
+		List<AspNetUsersManager> um = new List<AspNetUsersManager>();
+		foreach (var item in data)
+		{
+			AspNetStudentsInfo tat = new AspNetStudentsInfo()
+			{
+				UserId = item.UserId,
+				ContactNumber = item.ContactNumber,
+				DOB = item.DOB.Value.Date
+			};
+
+			AspNetUsers tat1 = new AspNetUsers()
+			{
+				FullName = item.FullName,
+				Email = item.Email,
+				CnfEmail = item.Confirmed
+			};
+
+			AspNetUsersManager tat2 = new AspNetUsersManager()
+			{
+				//DOJ = item.DOJ.Value.Date
+				DOJ = DateTime.Now
+			};
+
+			si.Add(tat);
+			ui.Add(tat1);
+			um.Add(tat2);
+		}
+
+		List<object> stuff = new List<object>();
+		stuff.Add(si);
+		stuff.Add(ui);
+		stuff.Add(um);
+
+		object ClientInfo = JsonConvert.SerializeObject(stuff);
+		TempData["ClientInfo"] = ClientInfo;
+
+		if (ClientInfo == null) return View("error");
+		ViewBag.ClientInfo = JsonConvert.DeserializeObject<List<Object>>(ClientInfo.ToString());
+		return View("AllAgent");
+	}
+
+	[Authorize(Roles = "agent,admin")]
+	public IActionResult MyClientt()
+	{
+		string email = User.FindFirst(ClaimTypes.Email)?.Value;
+		if (email == null) return View("error");
+		var data = _commonController.AllClient(email);
+		List<AspNetStudentsInfo> si = new List<AspNetStudentsInfo>();
+		List<AspNetUsers> ui = new List<AspNetUsers>();
+		List<AspNetUsersManager> um = new List<AspNetUsersManager>();
+		foreach (var item in data)
+		{
+			AspNetStudentsInfo tat = new AspNetStudentsInfo()
+			{
+				UserId = item.UserId,
+				ContactNumber = item.ContactNumber,
+				DOB = item.DOB.Value.Date
+			};
+
+			AspNetUsers tat1 = new AspNetUsers()
+			{
+				FullName = item.FullName,
+				Email = item.Email,
+				CnfEmail = item.Confirmed
+			};
+
+			AspNetUsersManager tat2 = new AspNetUsersManager()
+			{
+				//DOJ = item.DOJ.Value.Date
+				DOJ = DateTime.Now
+			};
+
+			si.Add(tat);
+			ui.Add(tat1);
+			um.Add(tat2);
+		}
+
+		List<object> stuff = new List<object>();
+		stuff.Add(si);
+		stuff.Add(ui);
+		stuff.Add(um);
+
+		object ClientInfo = JsonConvert.SerializeObject(stuff);
+		TempData["ClientInfo"] = ClientInfo;
+
+		if (ClientInfo == null) return View("error");
+		ViewBag.ClientInfo = JsonConvert.DeserializeObject<List<Object>>(ClientInfo.ToString());
+		return View();
+	}
+
+	[Authorize(Roles = "agent,admin")]
+	public async Task<IActionResult> ViewClient(int id, bool IsAdmin=false, bool CInfo = false)
 	{
 		ViewBag.IsAdmin = IsAdmin;
-		var result = _serviceClient.ViewClientAsync(id);
+		ViewBag.IsClientInfo = CInfo;
+		var result = await _serviceClient.ViewClientAsync(id);
 		if (result == null)	return View("error"); // No Data
 
 		ModelAspNetUsers Info = new ModelAspNetUsers()
@@ -594,21 +694,6 @@ public class ClientController : Controller
 			FullName = result.AspUsersModel.FullName,
 			Email = result.AspUsersModel.Email
 		};
-
-		//ModelAspNetUsersInfo UserInfo = new ModelAspNetUsersInfo()
-		//{
-		//	DOB = result.AspUsersInfoModel.DOB,
-		//	ContactNumber = result.AspUsersInfoModel.ContactNumber,
-		//	Website = result.AspUsersInfoModel.Website,
-		//	CompanyName = result.AspUsersInfoModel.CompanyName,
-		//	StudentSource = result.AspUsersInfoModel.StudentSource,
-		//	AddressLine1 = result.AspUsersInfoModel.AddressLine1,
-		//	AddressLine2 = result.AspUsersInfoModel.AddressLine2,
-		//	CityId = result.AspUsersInfoModel.CityId,
-		//	PinCode = result.AspUsersInfoModel.PinCode,
-		//	About = result.AspUsersInfoModel.About
-		//};
-
 		ModelAspNetStudentsInfo StudentInfo = new ModelAspNetStudentsInfo()
 		{
 			ContactNumber = result.AspStudentsInfoModel.ContactNumber,
@@ -689,9 +774,12 @@ public class ClientController : Controller
 	}
 
 	[Authorize(Roles = "agent,admin")]
-	public IActionResult ViewClientt(int id)
+	public async Task<IActionResult> ViewClientt(int id)
 	{
-		var result = _serviceClient.ViewClientAsync(id);
+		List<ModelAspNetusersDocs> DocsInfo = new List<ModelAspNetusersDocs>();
+		List<object> stuff = new List<object>();
+
+		var result = await _serviceClient.ViewClientAsync(id);
 		if (result == null) return View("error"); // No Data
 
 		ModelAspNetUsers Info = new ModelAspNetUsers()
@@ -700,48 +788,119 @@ public class ClientController : Controller
 			Email = result.AspUsersModel.Email
 		};
 
-
-        ModelAspNetUsersInfo UserInfo = new ModelAspNetUsersInfo()
+		if(result.AspUsersInfoModel != null)
         {
-            DOB = result.AspUsersInfoModel.DOB,
-            ContactNumber = result.AspUsersInfoModel.ContactNumber,
-            Website = result.AspUsersInfoModel.Website,
-            CompanyName = result.AspUsersInfoModel.CompanyName,
-            StudentSource = result.AspUsersInfoModel.StudentSource,
-            AddressLine1 = result.AspUsersInfoModel.AddressLine1,
-            AddressLine2 = result.AspUsersInfoModel.AddressLine2,
-            CityId = result.AspUsersInfoModel.CityId,
-            PinCode = result.AspUsersInfoModel.PinCode,
-            About = result.AspUsersInfoModel.About
-        };
-
-        List<ModelAspNetusersDocs> DocsInfo = new List<ModelAspNetusersDocs>();
-
-		foreach (var item in result.AspUserDocsModel)
-		{
-			ModelAspNetusersDocs data = new ModelAspNetusersDocs()
+			ModelAspNetUsersInfo UserInfo = new ModelAspNetUsersInfo()
 			{
-				Document = item.Document,
-				DocumentName = item.DocumentName,
-				DocumentURL = item.DocumentURL,
-				Type = item.Type
+				DOB = result.AspUsersInfoModel.DOB,
+				ContactNumber = result.AspUsersInfoModel.ContactNumber,
+				Website = result.AspUsersInfoModel.Website,
+				CompanyName = result.AspUsersInfoModel.CompanyName,
+				StudentSource = result.AspUsersInfoModel.StudentSource,
+				AddressLine1 = result.AspUsersInfoModel.AddressLine1,
+				AddressLine2 = result.AspUsersInfoModel.AddressLine2,
+				CityId = result.AspUsersInfoModel.CityId,
+				PinCode = result.AspUsersInfoModel.PinCode,
+				About = result.AspUsersInfoModel.About
 			};
-			DocsInfo.Add(data);
+
+			foreach (var item in result.AspUserDocsModel)
+			{
+				ModelAspNetusersDocs data = new ModelAspNetusersDocs()
+				{
+					Document = item.Document,
+					DocumentName = item.DocumentName,
+					DocumentURL = item.DocumentURL,
+					Type = item.Type
+				};
+				DocsInfo.Add(data);
+			}
+
+			stuff.Add(Info);
+			stuff.Add(UserInfo);
+			stuff.Add(DocsInfo);
 		}
 
-		List<object> stuff = new List<object>();
-		stuff.Add(Info);
-		stuff.Add(UserInfo);
-		stuff.Add(DocsInfo);
+		if(result.AspStudentsInfoModel != null)
+        {
+			ModelAspNetStudentsInfo StudentInfo = new ModelAspNetStudentsInfo()
+			{
+				ContactNumber = result.AspStudentsInfoModel.ContactNumber,
+				DOB = result.AspStudentsInfoModel.DOB.Value,
+				AddressLine1 = result.AspStudentsInfoModel.AddressLine1,
+				AddressLine2 = result.AspStudentsInfoModel.AddressLine2,
+				CityId = result.AspStudentsInfoModel.CityId,
+				Zip = result.AspStudentsInfoModel.Zip.Value,
+				Reference = result.AspStudentsInfoModel.Reference,
+				PrimaryLanguage = result.AspStudentsInfoModel.PrimaryLanguage,
+				EnglishExamType = result.AspStudentsInfoModel.EnglishExamType,
+				Intake = result.AspStudentsInfoModel.Intake,
+				IntakeYear = result.AspStudentsInfoModel.IntakeYear.Value,
+				Program = result.AspStudentsInfoModel.Program,
+				ProgramCollegePreference = result.AspStudentsInfoModel.ProgramCollegePreference,
+				HighestEducation = result.AspStudentsInfoModel.HighestEducation,
+				MastersEducationStartDate = result.AspStudentsInfoModel.MastersEducationStartDate,
+				MastersEducationEndDate = result.AspStudentsInfoModel.MastersEducationEndDate,
+				MastersEducationCompletionDate = result.AspStudentsInfoModel.MastersEducationCompletionDate,
+				MastersInstituteInfo = result.AspStudentsInfoModel.MastersInstituteInfo,
+				MastersEducationPercentage = result.AspStudentsInfoModel.MastersEducationPercentage,
+				MastersEducationMathsmarks = result.AspStudentsInfoModel.MastersEducationMathsmarks,
+				MastersEducationEnglishMarks = result.AspStudentsInfoModel.MastersEducationEnglishMarks,
+				BachelorsEducationStartDate = result.AspStudentsInfoModel.BachelorsEducationStartDate,
+				BachelorsEducationEndDate = result.AspStudentsInfoModel.BachelorsEducationEndDate,
+				BachelorsEducationCompletionDate = result.AspStudentsInfoModel.BachelorsEducationCompletionDate,
+				BachelorsInstituteInfo = result.AspStudentsInfoModel.BachelorsInstituteInfo,
+				BachelorsEducationPercentage = result.AspStudentsInfoModel.BachelorsEducationPercentage,
+				BachelorsEducationEnglishMarks = result.AspStudentsInfoModel.BachelorsEducationEnglishMarks,
+				BachelorsEducationMathsmarks = result.AspStudentsInfoModel.BachelorsEducationMathsmarks,
+				SecondaryEducationStartDate = result.AspStudentsInfoModel.SecondaryEducationStartDate,
+				SecondaryEducationEndDate = result.AspStudentsInfoModel.SecondaryEducationEndDate,
+				SecondaryEducationCompletionDate = result.AspStudentsInfoModel.SecondaryEducationCompletionDate,
+				SecondaryInstituteInfo = result.AspStudentsInfoModel.SecondaryInstituteInfo,
+				SecondaryEducationPercentage = result.AspStudentsInfoModel.SecondaryEducationPercentage,
+				SecondaryEducationMathsmarks = result.AspStudentsInfoModel.SecondaryEducationMathsmarks,
+				SecondaryEducationEnglishMarks = result.AspStudentsInfoModel.SecondaryEducationEnglishMarks,
+				MatricEducationStartDate = result.AspStudentsInfoModel.MatricEducationStartDate,
+				MatricEducationEndDate = result.AspStudentsInfoModel.MatricEducationEndDate,
+				MatricEducationCompletionDate = result.AspStudentsInfoModel.MatricEducationCompletionDate,
+				MatricInstituteInfo = result.AspStudentsInfoModel.MatricInstituteInfo,
+				MatricEducationPercentage = result.AspStudentsInfoModel.MatricEducationPercentage,
+				MatricEducationMathsmarks = result.AspStudentsInfoModel.MatricEducationMathsmarks,
+				MatricEducationEnglishMarks = result.AspStudentsInfoModel.MatricEducationEnglishMarks,
+				CompanyName = result.AspStudentsInfoModel.CompanyName,
+				JobTitle = result.AspStudentsInfoModel.JobTitle,
+				JobStartDate = result.AspStudentsInfoModel.JobStartDate,
+				JobEndDate = result.AspStudentsInfoModel.JobEndDate,
+				IsRefusedVisa = result.AspStudentsInfoModel.IsRefusedVisa,
+				ExplainIfRefused = result.AspStudentsInfoModel.ExplainIfRefused,
+				HaveStudyPermitVisa = result.AspStudentsInfoModel.HaveStudyPermitVisa
+			};
+
+			foreach (var item in result.AspUserDocsModel)
+			{
+				ModelAspNetusersDocs data = new ModelAspNetusersDocs()
+				{
+					Document = item.Document,
+					DocumentName = item.DocumentName,
+					DocumentURL = item.DocumentURL,
+					Type = item.Type
+				};
+				DocsInfo.Add(data);
+			}
+
+			stuff.Add(Info);
+			stuff.Add(StudentInfo);
+			stuff.Add(DocsInfo);
+		}
 
 		object ClientInfo = JsonConvert.SerializeObject(stuff);
 		TempData["ClientInfo"] = ClientInfo;
 
 		if (ClientInfo == null) return View("error");
 		ViewBag.ClientInfo = JsonConvert.DeserializeObject<List<Object>>(ClientInfo.ToString());
-		return View("ViewClient", new { IsAdmin=true });
-	}
 
+		return View("ViewClient");
+	}
 
 	[Authorize(Roles = "admin")]
 	public IActionResult AllClientAgents(int id)
@@ -793,6 +952,13 @@ public class ClientController : Controller
 		if (ClientInfo == null) return View("error");
 		ViewBag.ClientInfo = JsonConvert.DeserializeObject<List<Object>>(ClientInfo.ToString());
 		return View("AllClientAgents");
+	}
+
+	public IActionResult NewRegistration()
+	{
+		var email = User.FindFirst(ClaimTypes.Email)?.Value;
+		var data = _commonController.NewRegistrationAsync(email);
+		return View(data);
 	}
 
 }
