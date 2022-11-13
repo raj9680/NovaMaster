@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Imm.DAL.Migrations
 {
     [DbContext(typeof(NovaDbContext))]
-    [Migration("20220911123735_init")]
+    [Migration("20221105073432_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -222,6 +222,9 @@ namespace Imm.DAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsNewRegistration")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -241,6 +244,7 @@ namespace Imm.DAL.Migrations
                             Email = "admin@admin.com",
                             FullName = "Raj Aryan",
                             IsActive = false,
+                            IsNewRegistration = false,
                             Password = "admin@admin.com"
                         });
                 });
@@ -251,9 +255,6 @@ namespace Imm.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AspNetUsersInfoUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
@@ -275,7 +276,7 @@ namespace Imm.DAL.Migrations
 
                     b.HasKey("DocId");
 
-                    b.HasIndex("AspNetUsersInfoUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserDocs");
                 });
@@ -459,9 +460,11 @@ namespace Imm.DAL.Migrations
 
             modelBuilder.Entity("Imm.DAL.Data.Table.AspNetUsersDocs", b =>
                 {
-                    b.HasOne("Imm.DAL.Data.Table.AspNetUsersInfo", null)
+                    b.HasOne("Imm.DAL.Data.Table.AspNetUsers", "AspNetUsers")
                         .WithMany("AspNetUsersDocs")
-                        .HasForeignKey("AspNetUsersInfoUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Imm.DAL.Data.Table.AspNetUsersInfo", b =>

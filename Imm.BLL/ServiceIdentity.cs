@@ -97,6 +97,7 @@ namespace Imm.BLL
                         var userManager = new AspNetUsersManager();
                         userManager.StudentId = userr.UserId;
                         userManager.AgentId = 1;
+                        userManager.DOJ = DateTime.Now.Date;
                         _context.AspNetUsersManager.Add(userManager);
                     }
 

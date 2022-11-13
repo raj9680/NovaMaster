@@ -11,7 +11,7 @@ namespace Imm.DAL.Data.Table
         public int DocId { get; set; }
  
         [Required]
-        [ForeignKey("AspNetUsersInfo")]
+        [ForeignKey("AspNetUsers")]
         public int UserId { get; set; }
 
         [NotMapped]
@@ -23,6 +23,6 @@ namespace Imm.DAL.Data.Table
         public string Comments { get; set; }
 
         // Navigation
-        // public AspNetUsersInfo AspNetUsersInfo { get; set; }
+        public AspNetUsers AspNetUsers { get; set; }
     }
 }

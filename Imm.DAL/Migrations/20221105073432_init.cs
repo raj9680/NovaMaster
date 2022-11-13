@@ -17,7 +17,8 @@ namespace Imm.DAL.Migrations
                     Email = table.Column<string>(nullable: false),
                     Password = table.Column<string>(nullable: false),
                     CnfEmail = table.Column<bool>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false)
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsNewRegistration = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,6 +50,30 @@ namespace Imm.DAL.Migrations
                     table.PrimaryKey("PK_AspNetRoles", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_AspNetRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserDocs",
+                columns: table => new
+                {
+                    DocId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    DocumentName = table.Column<string>(nullable: true),
+                    DocumentURL = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    IsVerified = table.Column<bool>(nullable: false),
+                    Comments = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserDocs", x => x.DocId);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserDocs_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "UserId",
@@ -219,35 +244,10 @@ namespace Imm.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "AspNetUserDocs",
-                columns: table => new
-                {
-                    DocId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    DocumentName = table.Column<string>(nullable: true),
-                    DocumentURL = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
-                    IsVerified = table.Column<bool>(nullable: false),
-                    Comments = table.Column<string>(nullable: true),
-                    AspNetUsersInfoUserId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserDocs", x => x.DocId);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserDocs_AspNetUsersInfo_AspNetUsersInfoUserId",
-                        column: x => x.AspNetUsersInfoUserId,
-                        principalTable: "AspNetUsersInfo",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "UserId", "CnfEmail", "Email", "FullName", "IsActive", "Password" },
-                values: new object[] { 1, false, "admin@admin.com", "Raj Aryan", false, "admin@admin.com" });
+                columns: new[] { "UserId", "CnfEmail", "Email", "FullName", "IsActive", "IsNewRegistration", "Password" },
+                values: new object[] { 1, false, "admin@admin.com", "Raj Aryan", false, false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Country",
@@ -285,9 +285,9 @@ namespace Imm.DAL.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserDocs_AspNetUsersInfoUserId",
+                name: "IX_AspNetUserDocs_UserId",
                 table: "AspNetUserDocs",
-                column: "AspNetUsersInfoUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_Email",
@@ -323,10 +323,10 @@ namespace Imm.DAL.Migrations
                 name: "AspNetUserDocs");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsersManager");
+                name: "AspNetUsersInfo");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsersInfo");
+                name: "AspNetUsersManager");
 
             migrationBuilder.DropTable(
                 name: "City");

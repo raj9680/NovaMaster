@@ -33,7 +33,7 @@ namespace Imm.DAL.Data
 
             /// Seeding State
             modelBuilder.Entity<AspNetRoles>().HasData(
-                new AspNetRoles { UserId = 1, Role = "agent" });
+                new AspNetRoles { UserId = 1, Role = "admin" });
 
             /// Seeding City
             modelBuilder.Entity<City>().HasData(

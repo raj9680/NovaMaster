@@ -126,9 +126,10 @@ namespace Imm.BLL
                     {
                         AgentId = agentId,
                         StudentId = role.UserId,
-                        DOJ = DateTime.UtcNow.Date
+                        DOJ = DateTime.Now.Date
                     };
 
+                    user.IsNewRegistration = true;
                     _context.AspNetUsers.Add(user);
                     _context.SaveChanges();
 
@@ -235,22 +236,21 @@ namespace Imm.BLL
                 }
                 return existing;
             }
-            _logger.LogError("Something error in ServiceClient/Document not uploaded");
+            _logger.LogWarning("New client created without document upload from ServiceClient.MultipleFileUploadAsync");
             return null;
         }
 
-        // return single client Info
-        public InformationViewModel ViewClientAsync(int id)
+        public async Task<InformationViewModel> ViewClientAsync(int id)
         {
             if(id < 0 || id == 0)
                 return null;
             var role = _context.AspNetRoles.Find(id).Role;
             if (role.Equals("client"))
-                return ClientOnly(id);
+                return await ClientOnly(id);
             return AgentOnly(id);
         }
 
-        public InformationViewModel ClientOnly(int id)
+        public async Task<InformationViewModel> ClientOnly(int id)
         {
             if (id == 0)
                 return null;
@@ -325,6 +325,14 @@ namespace Imm.BLL
                 fin.AspStudentsInfoModel = userInfo;
                 fin.AspUserDocsModel = doc;
             }
+
+            var userr = await _context.AspNetUsers.FindAsync(id);
+            if (userr != null)
+            {
+                userr.IsNewRegistration = false;
+                await _context.SaveChangesAsync();
+            }
+
             return fin;
         }
 

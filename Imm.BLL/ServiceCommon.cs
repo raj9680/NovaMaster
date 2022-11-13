@@ -151,7 +151,6 @@ namespace Imm.BLL
             return res.DocumentURL.ToString();
         }
 
-
         public async Task<bool> ResetPasswordAsync(AspNetUsers model)
         {
             try
@@ -171,7 +170,6 @@ namespace Imm.BLL
             }
         }
 
-
         public string Role(int id)
         {
             if (id < 0 || id == 0)
@@ -179,7 +177,6 @@ namespace Imm.BLL
             var role = _context.AspNetRoles.Find(id).Role;
             return role.ToString();
         }
-
 
         public List<AgentStudentViewModel> ClientAgentViewAsync(string email)
         {
@@ -192,6 +189,64 @@ namespace Imm.BLL
             {
                 var q = (from um in _context.AspNetUsersManager
                          join si in _context.AspNetUsersInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.AgentId == userId
+                         select new { um.DOJ, si.ContactNumber, si.DOB, si.UserId, u.FullName, u.Email, u.CnfEmail }
+                        ).ToList();
+
+                foreach (var item in q)
+                {
+                    AgentStudentViewModel data = new AgentStudentViewModel()
+                    {
+                        UserId = item.UserId,
+                        ContactNumber = item.ContactNumber,
+                        FullName = item.FullName,
+                        Email = item.Email,
+                        DOB = item.DOB,
+                        //DOJ = item.DOJ,
+                        Confirmed = item.CnfEmail
+                    };
+                    res.Add(data);
+                }
+            }
+            else // all roles other than admin
+            {
+                var q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.AgentId == userId
+                         select new { um.DOJ, si.ContactNumber, si.DOB, si.UserId, u.FullName, u.Email, u.CnfEmail }
+                        ).ToList();
+
+                foreach (var item in q)
+                {
+                    AgentStudentViewModel data = new AgentStudentViewModel()
+                    {
+                        UserId = item.UserId,
+                        ContactNumber = item.ContactNumber,
+                        FullName = item.FullName,
+                        Email = item.Email,
+                        DOB = item.DOB,
+                        DOJ = item.DOJ,
+                        Confirmed = item.CnfEmail
+                    };
+                    res.Add(data);
+                }
+            }
+            return res;
+        }
+
+        public List<AgentStudentViewModel> AllClientViewAsync(string email)
+        {
+            if (email == null)
+                return null;
+            int userId = _context.AspNetUsers.Where(x => x.Email == email).Select(o => o.UserId).FirstOrDefault();
+            List<AgentStudentViewModel> res = new List<AgentStudentViewModel>();
+            string role = Role(userId);
+            if (role.Contains("admin"))
+            {
+                var q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
                          join u in _context.AspNetUsers on si.UserId equals u.UserId
                          where um.AgentId == userId
                          select new { um.DOJ, si.ContactNumber, si.DOB, si.UserId, u.FullName, u.Email, u.CnfEmail }
@@ -265,6 +320,113 @@ namespace Imm.BLL
                 };
                 res.Add(data);
             }
+            return res;
+        }
+
+
+        public List<AgentStudentViewModel> NewRegistration(string email)
+        {
+            var em = _context.AspNetUsers.Where(o => o.Email == email).Select(x => x.UserId).FirstOrDefault();
+            var role = _context.AspNetRoles.Where(i => i.UserId == em).Select(u => u.Role).FirstOrDefault();
+            if(role.Contains("agent"))
+                return NewRegistrationAgentAsync(email);
+            return NewRegistrationAsync();
+        }
+
+        public List<AgentStudentViewModel> NewRegistrationAsync()
+        {
+            var users = _context.AspNetUsers.Where(x => x.IsNewRegistration == true).ToList(); List<AgentStudentViewModel> res = new List<AgentStudentViewModel>();
+
+            var q = new List<AgentStudentViewModel>();
+            foreach (var itemm in users)
+            {
+                var role = _context.AspNetRoles.Where(r => r.UserId == itemm.UserId).Select(t => t.Role).FirstOrDefault();
+                if (role.Contains("client"))
+                {
+                    q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.StudentId == itemm.UserId
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                            ).ToList();
+                }
+                else
+                {
+                    q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetUsersInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.StudentId == itemm.UserId
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                            ).ToList();
+                }
+                if (q != null)
+                {
+                    foreach (var item in q)
+                    {
+                        AgentStudentViewModel data = new AgentStudentViewModel()
+                        {
+                            UserId = item.UserId,
+                            ContactNumber = item.ContactNumber,
+                            FullName = item.FullName,
+                            Email = item.Email,
+                            DOB = item.DOB,
+                            DOJ = item.DOJ,
+                            Confirmed = item.Confirmed
+                        };
+                        res.Add(data);
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public List<AgentStudentViewModel> NewRegistrationAgentAsync(string email)
+        {
+            int userId = _context.AspNetUsers.Where(o => o.Email == email).Select(x => x.UserId).FirstOrDefault();
+            var users = _context.AspNetUsers.Where(x => x.IsNewRegistration == true).ToList(); List<AgentStudentViewModel> res = new List<AgentStudentViewModel>();
+
+            var q = new List<AgentStudentViewModel>();
+            foreach (var itemm in users)
+            {
+                var role = _context.AspNetRoles.Where(r => r.UserId == itemm.UserId).Select(t => t.Role).FirstOrDefault();
+                if (role.Contains("client"))
+                {
+                    q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.StudentId == itemm.UserId && um.AgentId == userId
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                            ).ToList();
+                }
+                else
+                {
+                    q = (from um in _context.AspNetUsersManager
+                         join si in _context.AspNetUsersInfo on um.StudentId equals si.UserId
+                         join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         where um.StudentId == itemm.UserId && um.AgentId == userId
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                            ).ToList();
+                }
+                if (q != null)
+                {
+                    foreach (var item in q)
+                    {
+                        AgentStudentViewModel data = new AgentStudentViewModel()
+                        {
+                            UserId = item.UserId,
+                            ContactNumber = item.ContactNumber,
+                            FullName = item.FullName,
+                            Email = item.Email,
+                            DOB = item.DOB,
+                            DOJ = item.DOJ,
+                            Confirmed = item.Confirmed
+                        };
+                        res.Add(data);
+                    }
+                }
+            }
+
             return res;
         }
 

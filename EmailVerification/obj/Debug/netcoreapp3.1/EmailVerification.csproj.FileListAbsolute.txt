@@ -11,10 +11,10 @@ C:\Users\raj.kumar\Desktop\Immigration\ImmigrationMaster\EmailVerification\obj\D
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\bin\Debug\netcoreapp3.1\EmailVerification.deps.json
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\bin\Debug\netcoreapp3.1\EmailVerification.dll
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\bin\Debug\netcoreapp3.1\EmailVerification.pdb
+C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.csproj.AssemblyReference.cache
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.AssemblyInfoInputs.cache
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.AssemblyInfo.cs
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.csproj.CoreCompileInputs.cache
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.dll
 C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.pdb
-C:\Users\raj.kumar\Desktop\NovaProject\NovaMaster\EmailVerification\obj\Debug\netcoreapp3.1\EmailVerification.csproj.AssemblyReference.cache

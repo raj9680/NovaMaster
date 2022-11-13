@@ -25,7 +25,6 @@ namespace Imm.DAL.Data.Table
         // Navigation property returns the AspNetUsers Object
         public AspNetUsers AspNetUsers { get; set; }
         public City City { get; set; }
-        public ICollection<AspNetUsersDocs> AspNetUsersDocs { get; set; }
     }
 
 
