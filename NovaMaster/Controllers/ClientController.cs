@@ -687,83 +687,92 @@ public class ClientController : Controller
 		ViewBag.IsAdmin = IsAdmin;
 		ViewBag.IsClientInfo = CInfo;
 		var result = await _serviceClient.ViewClientAsync(id);
-		if (result == null)	return View("error"); // No Data
+
+		if (result == null || result.AspStudentsInfoModel == null)	return View("error"); // No Data
+
+		List<object> stuff = new List<object>();
+		List<ModelAspNetusersDocs> DocsInfo = new List<ModelAspNetusersDocs>();
 
 		ModelAspNetUsers Info = new ModelAspNetUsers()
 		{
 			FullName = result.AspUsersModel.FullName,
 			Email = result.AspUsersModel.Email
 		};
-		ModelAspNetStudentsInfo StudentInfo = new ModelAspNetStudentsInfo()
-		{
-			ContactNumber = result.AspStudentsInfoModel.ContactNumber,
-			DOB = result.AspStudentsInfoModel.DOB.Value,
-			AddressLine1 = result.AspStudentsInfoModel.AddressLine1,
-			AddressLine2 = result.AspStudentsInfoModel.AddressLine2,
-			CityId = result.AspStudentsInfoModel.CityId,
-			Zip = result.AspStudentsInfoModel.Zip.Value,
-			Reference = result.AspStudentsInfoModel.Reference,
-			PrimaryLanguage = result.AspStudentsInfoModel.PrimaryLanguage,
-			EnglishExamType = result.AspStudentsInfoModel.EnglishExamType,
-			Intake = result.AspStudentsInfoModel.Intake,
-			IntakeYear = result.AspStudentsInfoModel.IntakeYear.Value,
-			Program = result.AspStudentsInfoModel.Program,
-			ProgramCollegePreference = result.AspStudentsInfoModel.ProgramCollegePreference,
-			HighestEducation = result.AspStudentsInfoModel.HighestEducation,
-			MastersEducationStartDate = result.AspStudentsInfoModel.MastersEducationStartDate,
-			MastersEducationEndDate = result.AspStudentsInfoModel.MastersEducationEndDate,
-			MastersEducationCompletionDate = result.AspStudentsInfoModel.MastersEducationCompletionDate,
-			MastersInstituteInfo = result.AspStudentsInfoModel.MastersInstituteInfo,
-			MastersEducationPercentage = result.AspStudentsInfoModel.MastersEducationPercentage,
-			MastersEducationMathsmarks = result.AspStudentsInfoModel.MastersEducationMathsmarks,
-			MastersEducationEnglishMarks = result.AspStudentsInfoModel.MastersEducationEnglishMarks,
-			BachelorsEducationStartDate = result.AspStudentsInfoModel.BachelorsEducationStartDate,
-			BachelorsEducationEndDate = result.AspStudentsInfoModel.BachelorsEducationEndDate,
-			BachelorsEducationCompletionDate = result.AspStudentsInfoModel.BachelorsEducationCompletionDate,
-			BachelorsInstituteInfo = result.AspStudentsInfoModel.BachelorsInstituteInfo,
-			BachelorsEducationPercentage = result.AspStudentsInfoModel.BachelorsEducationPercentage,
-			BachelorsEducationEnglishMarks = result.AspStudentsInfoModel.BachelorsEducationEnglishMarks,
-			BachelorsEducationMathsmarks = result.AspStudentsInfoModel.BachelorsEducationMathsmarks,
-			SecondaryEducationStartDate = result.AspStudentsInfoModel.SecondaryEducationStartDate,
-			SecondaryEducationEndDate = result.AspStudentsInfoModel.SecondaryEducationEndDate,
-			SecondaryEducationCompletionDate = result.AspStudentsInfoModel.SecondaryEducationCompletionDate,
-			SecondaryInstituteInfo = result.AspStudentsInfoModel.SecondaryInstituteInfo,
-			SecondaryEducationPercentage = result.AspStudentsInfoModel.SecondaryEducationPercentage,
-			SecondaryEducationMathsmarks = result.AspStudentsInfoModel.SecondaryEducationMathsmarks,
-			SecondaryEducationEnglishMarks = result.AspStudentsInfoModel.SecondaryEducationEnglishMarks,
-			MatricEducationStartDate = result.AspStudentsInfoModel.MatricEducationStartDate,
-			MatricEducationEndDate = result.AspStudentsInfoModel.MatricEducationEndDate,
-			MatricEducationCompletionDate = result.AspStudentsInfoModel.MatricEducationCompletionDate,
-			MatricInstituteInfo = result.AspStudentsInfoModel.MatricInstituteInfo,
-			MatricEducationPercentage = result.AspStudentsInfoModel.MatricEducationPercentage,
-			MatricEducationMathsmarks = result.AspStudentsInfoModel.MatricEducationMathsmarks,
-			MatricEducationEnglishMarks = result.AspStudentsInfoModel.MatricEducationEnglishMarks,
-			CompanyName = result.AspStudentsInfoModel.CompanyName,
-			JobTitle = result.AspStudentsInfoModel.JobTitle,
-			JobStartDate = result.AspStudentsInfoModel.JobStartDate,
-			JobEndDate = result.AspStudentsInfoModel.JobEndDate,
-			IsRefusedVisa = result.AspStudentsInfoModel.IsRefusedVisa,
-			ExplainIfRefused = result.AspStudentsInfoModel.ExplainIfRefused,
-			HaveStudyPermitVisa = result.AspStudentsInfoModel.HaveStudyPermitVisa
-		};
-		List<ModelAspNetusersDocs> DocsInfo = new List<ModelAspNetusersDocs>();
 
-        foreach (var item in result.AspUserDocsModel)
+		if(result.AspStudentsInfoModel != null)
         {
-			ModelAspNetusersDocs data = new ModelAspNetusersDocs()
+			ModelAspNetStudentsInfo StudentInfo = new ModelAspNetStudentsInfo()
 			{
-				Document = item.Document,
-				DocumentName = item.DocumentName,
-				DocumentURL = item.DocumentURL,
-				Type = item.Type
+				ContactNumber = result.AspStudentsInfoModel.ContactNumber,
+				DOB = result.AspStudentsInfoModel.DOB.Value,
+				AddressLine1 = result.AspStudentsInfoModel.AddressLine1,
+				AddressLine2 = result.AspStudentsInfoModel.AddressLine2,
+				CityId = result.AspStudentsInfoModel.CityId,
+				Zip = result.AspStudentsInfoModel.Zip.Value,
+				Reference = result.AspStudentsInfoModel.Reference,
+				PrimaryLanguage = result.AspStudentsInfoModel.PrimaryLanguage,
+				EnglishExamType = result.AspStudentsInfoModel.EnglishExamType,
+				Intake = result.AspStudentsInfoModel.Intake,
+				IntakeYear = result.AspStudentsInfoModel.IntakeYear.Value,
+				Program = result.AspStudentsInfoModel.Program,
+				ProgramCollegePreference = result.AspStudentsInfoModel.ProgramCollegePreference,
+				HighestEducation = result.AspStudentsInfoModel.HighestEducation,
+				MastersEducationStartDate = result.AspStudentsInfoModel.MastersEducationStartDate,
+				MastersEducationEndDate = result.AspStudentsInfoModel.MastersEducationEndDate,
+				MastersEducationCompletionDate = result.AspStudentsInfoModel.MastersEducationCompletionDate,
+				MastersInstituteInfo = result.AspStudentsInfoModel.MastersInstituteInfo,
+				MastersEducationPercentage = result.AspStudentsInfoModel.MastersEducationPercentage,
+				MastersEducationMathsmarks = result.AspStudentsInfoModel.MastersEducationMathsmarks,
+				MastersEducationEnglishMarks = result.AspStudentsInfoModel.MastersEducationEnglishMarks,
+				BachelorsEducationStartDate = result.AspStudentsInfoModel.BachelorsEducationStartDate,
+				BachelorsEducationEndDate = result.AspStudentsInfoModel.BachelorsEducationEndDate,
+				BachelorsEducationCompletionDate = result.AspStudentsInfoModel.BachelorsEducationCompletionDate,
+				BachelorsInstituteInfo = result.AspStudentsInfoModel.BachelorsInstituteInfo,
+				BachelorsEducationPercentage = result.AspStudentsInfoModel.BachelorsEducationPercentage,
+				BachelorsEducationEnglishMarks = result.AspStudentsInfoModel.BachelorsEducationEnglishMarks,
+				BachelorsEducationMathsmarks = result.AspStudentsInfoModel.BachelorsEducationMathsmarks,
+				SecondaryEducationStartDate = result.AspStudentsInfoModel.SecondaryEducationStartDate,
+				SecondaryEducationEndDate = result.AspStudentsInfoModel.SecondaryEducationEndDate,
+				SecondaryEducationCompletionDate = result.AspStudentsInfoModel.SecondaryEducationCompletionDate,
+				SecondaryInstituteInfo = result.AspStudentsInfoModel.SecondaryInstituteInfo,
+				SecondaryEducationPercentage = result.AspStudentsInfoModel.SecondaryEducationPercentage,
+				SecondaryEducationMathsmarks = result.AspStudentsInfoModel.SecondaryEducationMathsmarks,
+				SecondaryEducationEnglishMarks = result.AspStudentsInfoModel.SecondaryEducationEnglishMarks,
+				MatricEducationStartDate = result.AspStudentsInfoModel.MatricEducationStartDate,
+				MatricEducationEndDate = result.AspStudentsInfoModel.MatricEducationEndDate,
+				MatricEducationCompletionDate = result.AspStudentsInfoModel.MatricEducationCompletionDate,
+				MatricInstituteInfo = result.AspStudentsInfoModel.MatricInstituteInfo,
+				MatricEducationPercentage = result.AspStudentsInfoModel.MatricEducationPercentage,
+				MatricEducationMathsmarks = result.AspStudentsInfoModel.MatricEducationMathsmarks,
+				MatricEducationEnglishMarks = result.AspStudentsInfoModel.MatricEducationEnglishMarks,
+				CompanyName = result.AspStudentsInfoModel.CompanyName,
+				JobTitle = result.AspStudentsInfoModel.JobTitle,
+				JobStartDate = result.AspStudentsInfoModel.JobStartDate,
+				JobEndDate = result.AspStudentsInfoModel.JobEndDate,
+				IsRefusedVisa = result.AspStudentsInfoModel.IsRefusedVisa,
+				ExplainIfRefused = result.AspStudentsInfoModel.ExplainIfRefused,
+				HaveStudyPermitVisa = result.AspStudentsInfoModel.HaveStudyPermitVisa
 			};
-			DocsInfo.Add(data);
-		}
 
-		List<object> stuff = new List<object>();
-		stuff.Add(Info);
-		stuff.Add(StudentInfo);
-		stuff.Add(DocsInfo);
+			if(result.AspUserDocsModel != null)
+            {
+				foreach (var item in result.AspUserDocsModel)
+				{
+					ModelAspNetusersDocs data = new ModelAspNetusersDocs()
+					{
+						Document = item.Document,
+						DocumentName = item.DocumentName,
+						DocumentURL = item.DocumentURL,
+						Type = item.Type
+					};
+					DocsInfo.Add(data);
+				}
+			}
+			
+			stuff.Add(Info);
+			stuff.Add(StudentInfo);
+			stuff.Add(DocsInfo);
+		}
 
 		object ClientInfo = JsonConvert.SerializeObject(stuff);
 		TempData["ClientInfo"] = ClientInfo;
@@ -958,6 +967,7 @@ public class ClientController : Controller
 	{
 		var email = User.FindFirst(ClaimTypes.Email)?.Value;
 		var data = _commonController.NewRegistrationAsync(email);
+
 		return View(data);
 	}
 

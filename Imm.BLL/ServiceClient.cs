@@ -354,6 +354,10 @@ namespace Imm.BLL
                     Email = item.u.Email
                 };
 
+                //var cnf = _context.AspNetUsers.Where(o => o.Email == user.Email).FirstOrDefault();
+                //cnf.IsNewRegistration = false;
+                //_context.SaveChanges();
+
                 AspNetUsersInfo userInfo = new AspNetUsersInfo()
                 {
                     ContactNumber = item.ui.ContactNumber,

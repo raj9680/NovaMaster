@@ -43,7 +43,6 @@ namespace Imm.BLL
             }).ToListAsync();
         }
 
-
         public async Task<List<State>> GetStateAsync(int countryId)
         {
             return await _context.State.Where(x => x.CountryId == countryId).Select(state => new State()
@@ -52,7 +51,6 @@ namespace Imm.BLL
                 StateName = state.StateName
             }).ToListAsync();
         }
-
 
         public async Task<List<City>> GetCityAsync(int stateId)
         {
@@ -73,7 +71,6 @@ namespace Imm.BLL
                     UserId = o.UserId
                 }).FirstOrDefault();
         }
-
 
         public List<string> MultipleFileUploadAsync(AspNetUsersDocs _file, string rootPath, string email)
         {
@@ -143,7 +140,6 @@ namespace Imm.BLL
             _logger.LogError("Something error in ServiceCommon");
             return null;
         }
-
         
         public async Task<string> ViewFileAsync(int docId)
         {
@@ -323,11 +319,12 @@ namespace Imm.BLL
             return res;
         }
 
-
         public List<AgentStudentViewModel> NewRegistration(string email)
         {
             var em = _context.AspNetUsers.Where(o => o.Email == email).Select(x => x.UserId).FirstOrDefault();
             var role = _context.AspNetRoles.Where(i => i.UserId == em).Select(u => u.Role).FirstOrDefault();
+            // Need to return user type also from here.
+
             if(role.Contains("agent"))
                 return NewRegistrationAgentAsync(email);
             return NewRegistrationAsync();
@@ -346,8 +343,9 @@ namespace Imm.BLL
                     q = (from um in _context.AspNetUsersManager
                          join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
                          join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         join r in _context.AspNetRoles on u.UserId equals r.UserId
                          where um.StudentId == itemm.UserId
-                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId, Role = r.Role }
                             ).ToList();
                 }
                 else
@@ -355,8 +353,9 @@ namespace Imm.BLL
                     q = (from um in _context.AspNetUsersManager
                          join si in _context.AspNetUsersInfo on um.StudentId equals si.UserId
                          join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         join r in _context.AspNetRoles on u.UserId equals r.UserId
                          where um.StudentId == itemm.UserId
-                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId, Role = r.Role }
                             ).ToList();
                 }
                 if (q != null)
@@ -371,7 +370,8 @@ namespace Imm.BLL
                             Email = item.Email,
                             DOB = item.DOB,
                             DOJ = item.DOJ,
-                            Confirmed = item.Confirmed
+                            Confirmed = item.Confirmed,
+                            Role = item.Role
                         };
                         res.Add(data);
                     }
@@ -395,8 +395,9 @@ namespace Imm.BLL
                     q = (from um in _context.AspNetUsersManager
                          join si in _context.AspNetStudentsInfo on um.StudentId equals si.UserId
                          join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         join r in _context.AspNetRoles on u.UserId equals r.UserId
                          where um.StudentId == itemm.UserId && um.AgentId == userId
-                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId, Role = r.Role }
                             ).ToList();
                 }
                 else
@@ -404,8 +405,9 @@ namespace Imm.BLL
                     q = (from um in _context.AspNetUsersManager
                          join si in _context.AspNetUsersInfo on um.StudentId equals si.UserId
                          join u in _context.AspNetUsers on si.UserId equals u.UserId
+                         join r in _context.AspNetRoles on u.UserId equals r.UserId
                          where um.StudentId == itemm.UserId && um.AgentId == userId
-                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId }
+                         select new AgentStudentViewModel() { FullName = u.FullName, Email = u.Email, ContactNumber = si.ContactNumber, DOB = si.DOB, DOJ = um.DOJ, Confirmed = u.CnfEmail, UserId = si.UserId, Role = r.Role }
                             ).ToList();
                 }
                 if (q != null)
@@ -420,7 +422,8 @@ namespace Imm.BLL
                             Email = item.Email,
                             DOB = item.DOB,
                             DOJ = item.DOJ,
-                            Confirmed = item.Confirmed
+                            Confirmed = item.Confirmed,
+                            Role = item.Role
                         };
                         res.Add(data);
                     }

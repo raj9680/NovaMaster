@@ -12,6 +12,7 @@ namespace Imm.DAL.Data.Table
         public DateTime? DOB { get; set; }
         public DateTime? DOJ { get; set; }
         public bool Confirmed { get; set; }
+        public string Role { get; set; }
     }
 
     public class InformationViewModel

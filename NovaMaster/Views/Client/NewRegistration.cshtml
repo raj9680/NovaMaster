@@ -58,7 +58,15 @@
                                           <td>Not Confirmed</td>
                                         }
                                     <td>
+                                        @if (Model[i].Role == "agent")
+                                        {
                                             <a asp-controller="Client" asp-action="ViewClientt" asp-route-id="@Model[i].UserId" class="text-primary">View</a>
+                                        }
+                                        @if (Model[i].Role == "client")
+                                        {
+                                            <a asp-controller="Client" asp-action="ViewClient" asp-route-id="@Model[i].UserId" class="text-primary">View</a>
+                                        }
+
                                     </td>
                                     </tr>
                                     }
